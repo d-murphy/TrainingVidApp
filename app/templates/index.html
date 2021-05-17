@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ user.username }}!</h1>
-    {% for post in posts %}
+    <h1>Hi, {{ current_user.username }}!</h1>
+    <p>Admin status:  {{ current_user.adminPrivilege }} </p>
+    {% for lesson in lessons %}
+    <div><p>{{ lesson.author.username }} says: <b>{{ lesson.name }}</b></p></div>
     {% endfor %}
 {% endblock %}

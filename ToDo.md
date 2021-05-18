@@ -1,22 +1,35 @@
-# To Do List
+# Must Do List
 
-* Define items for database (users, courses, videos)
+* lock down add a lesson
+* delete a lesson
+* add a course
+* delete a course
 * Add a unit test
+* Add video (file upload)
+* Add video images (file upload)
+* show your courses lessons on your profile page
+
+# May Do
 * add password for admin access
-
-________
-
-ORM: 
-
-One to one
-* users create videos  (Lesson.addedBy and User.lessonsCreated)
-* users create courses (Course.addedBy and User.coursesCreated)
-
-many to many
-* users join courses
-* users complete videos 
-* videos belong to courses
+* add email password reset
+* delete user account?
+* add new lessons to the homepage
+* show which courses lessons are in on the homepage? 
+* Play it again option?
+* add text indexing to descriptions?
 
 
 Completed: 
 * Complete login page
+* Define objects for database (users, courses, videos)
+* Link tables as approapriate
+* Created a lesson page to record completions
+* Add a lesson
+
+Completed during After H&T:
+
+
+Roadblocks encountered: 
+* db.session.add(lesson) was erroring while sending a user object rather than Id
+* Messed with query / joins for too long when data was available columns in main tables (so far at least)
+

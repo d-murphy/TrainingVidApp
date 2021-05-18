@@ -31,7 +31,7 @@ class User(UserMixin, db.Model):
 
     def completeLesson(self, lesson):
         self.lessonsComplete.append(lesson)
-    
+        
     def __repr__(self):
         return '<User {}>'.format(self.username) 
 
@@ -49,15 +49,10 @@ class User(UserMixin, db.Model):
 
 class Lesson(db.Model):
 
-    def getCompletedLessons(self):
-        query = Lesson.query.join(
-            usersLessonCompleteAssociation, (usersLessonCompleteAssociation.c.lesson_id == Lesson.id)
-            ).order_by(Lesson.dateAdded)
-        return query
-
     __tablename__ = 'lesson'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True, unique=True)
+    description = db.Column(db.String(400))
     duration = db.Column(db.Integer)
     dateAdded = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     createdBy = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -66,6 +61,7 @@ class Course(db.Model):
     __tablename__ = 'course'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True)
+    description = db.Column(db.String(400))
     createdBy = db.Column(db.Integer, db.ForeignKey('user.id'))
     lessonsIncluded = db.relationship('Lesson', secondary=courseVideosAssociation, backref="lessonInCourse")
 
@@ -73,9 +69,4 @@ class Course(db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
-def getUserLessons(user_id):
-    print(db.session.query(usersLessonCompleteAssociation).join(Lesson).all())
-
-def getUserLessons():
-    print(db.session.query(usersLessonCompleteAssociation.c.lesson_id).join(Lesson).all())
 

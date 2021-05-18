@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>{{ lesson.name }} is the lesson name.</p>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

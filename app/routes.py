@@ -71,7 +71,7 @@ def lesson(lessonId):
 
 @app.route('/createLesson', methods=['GET', 'POST'])
 @login_required
-#@admin_only
+@admin_only
 def createLesson():
     form = LessonForm()
     if form.validate_on_submit():

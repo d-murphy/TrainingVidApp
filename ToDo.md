@@ -1,13 +1,12 @@
 # Must Do List
 
-* lock down add a lesson
 * delete a lesson
 * add a course
 * delete a course
 * Add a unit test
 * Add video (file upload)
 * Add video images (file upload)
-* show your courses lessons on your profile page
+* show your courses lessons on your profile page (imagine this will require data return changes)
 
 # May Do
 * add password for admin access
@@ -25,8 +24,7 @@ Completed:
 * Link tables as approapriate
 * Created a lesson page to record completions
 * Add a lesson
-
-Completed during After H&T:
+* lock down add a lesson with function decorator
 
 
 Roadblocks encountered: 

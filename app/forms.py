@@ -36,5 +36,11 @@ class LessonForm(FlaskForm):
 class CompleteLesson(FlaskForm):
     submit = SubmitField('Complete Lesson')
 
+class CourseForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    description = TextAreaField ('Description', validators=[DataRequired()])
+    submit = SubmitField('Create')
+
+
 
 

@@ -1,8 +1,8 @@
 # Must Do List
 
-* delete a lesson
-* add a course
-* delete a course
+* delete a course without it affecting videos?
+* allow adding of videos to course
+
 * Add a unit test
 * Add video (file upload)
 * Add video images (file upload)
@@ -25,9 +25,11 @@ Completed:
 * Created a lesson page to record completions
 * Add a lesson
 * lock down add a lesson with function decorator
+* delete lessons, users
+* add a course
 
 
 Roadblocks encountered: 
 * db.session.add(lesson) was erroring while sending a user object rather than Id
 * Messed with query / joins for too long when data was available columns in main tables (so far at least)
-
+* struggled to find correct way to wrap @admin function

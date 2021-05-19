@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Course: {{ course.name }}</h1>
+    <hr>
+    <p>Description: course.description</p>
+    <p>Lessons in Course:</p>
+    {% for lesson in course.lessonsIncluded %}
+    <p>
+    Lesson ID: {{ lesson.id }}; Lesson Name: <b>{{ lesson.name }}</b>
+    </p>
+    {% endfor %}
+{% endblock %}

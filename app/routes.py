@@ -1,8 +1,8 @@
 from app import app, db
-from app.models import User, Lesson
+from app.models import User, Lesson, Course
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
-from app.forms import LoginForm, RegistrationForm, CompleteLesson, LessonForm
+from app.forms import LoginForm, RegistrationForm, CompleteLesson, LessonForm, CourseForm
 from werkzeug.urls import url_parse
 from app.decorators import admin_only
 
@@ -54,20 +54,15 @@ def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user.html', user=user)
 
-@app.route('/lesson/<lessonId>', methods=['GET', 'POST'])
+@app.route('/deleteUser/<username>')
 @login_required
-def lesson(lessonId):
-    lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
-    form = CompleteLesson()
-    user = current_user
-    if form.validate_on_submit():
-        user.completeLesson(lesson)
-        db.session.commit()
-        flash('Congratulations, you have finished the lesson')
-        redirectUrl = '/user/' + user.username
-        print(redirectUrl)
-        return redirect(url_for('user', username=user.username))
-    return render_template('lesson.html', title='Lesson', form=form, lesson=lesson)
+@admin_only
+def deleteUser(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    db.session.delete(user)
+    db.session.commit()
+    flash("User: {} successfully deleted.".format(user.username))
+    return redirect(url_for('index'))
 
 @app.route('/createLesson', methods=['GET', 'POST'])
 @login_required
@@ -84,3 +79,50 @@ def createLesson():
         return redirect(url_for('user', username=user.username))
     return render_template('createLesson.html', title='Create Lesson', form=form)
 
+
+@app.route('/lesson/<lessonId>', methods=['GET', 'POST'])
+@login_required
+def lesson(lessonId):
+    lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
+    form = CompleteLesson()
+    user = current_user
+    if form.validate_on_submit():
+        user.completeLesson(lesson)
+        db.session.commit()
+        flash('Congratulations, you have finished the lesson')
+        redirectUrl = '/user/' + user.username
+        print(redirectUrl)
+        return redirect(url_for('user', username=user.username))
+    return render_template('lesson.html', title='Lesson', form=form, lesson=lesson)
+
+
+@app.route('/deleteLesson/<lessonId>')
+@login_required
+@admin_only
+def deleteLesson(lessonId):
+    lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
+    db.session.delete(lesson)
+    db.session.commit()
+    flash("Lesson '{}' successfully deleted.".format(lesson.name))
+    return redirect(url_for('index'))
+
+@app.route('/createCourse', methods=['GET', 'POST'])
+@login_required
+@admin_only
+def createCourse():
+    form = CourseForm()
+    if form.validate_on_submit():
+        user = current_user
+        course = Course(name=form.name.data, description=form.description.data, 
+                        createdBy=user.id )
+        db.session.add(course)
+        db.session.commit()
+        flash('Course created successfully.')
+        return redirect(url_for('course', courseId=course.id))
+    return render_template('createCourse.html', title='Create Course', form=form)
+
+@app.route('/course/<courseId>', methods=['GET', 'POST'])
+@login_required
+def course(courseId):
+    course = Course.query.filter_by(id=courseId).first_or_404()
+    return render_template('course.html', title='Course', course=course)

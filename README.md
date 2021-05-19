@@ -1,8 +1,7 @@
 # TrainingVidApp
 
 Project objectives: 
-* execute a Flask project
+* execute a Flask project with a non-trival Object Relational Model
 * deploy a project on remote linux machine
-* implement complex data modeling relationships
 * enable a video upload
 * create custom video controls

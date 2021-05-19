@@ -1,7 +1,12 @@
 # Must Do List
 
-* delete a course without it affecting videos?
+* create admin section as its own template, then include in user page
+* create admin route
+* create edit course page
+* update home and user pages 
 * allow adding of videos to course
+* does deleting course cascade to videos?
+* check if twice completed lessons creates an issue
 
 * Add a unit test
 * Add video (file upload)
@@ -9,9 +14,9 @@
 * show your courses lessons on your profile page (imagine this will require data return changes)
 
 # May Do
+* drag and drop for adding videos
 * add password for admin access
 * add email password reset
-* delete user account?
 * add new lessons to the homepage
 * show which courses lessons are in on the homepage? 
 * Play it again option?
@@ -26,7 +31,7 @@ Completed:
 * Add a lesson
 * lock down add a lesson with function decorator
 * delete lessons, users
-* add a course
+* add, view, delete a course 
 
 
 Roadblocks encountered: 

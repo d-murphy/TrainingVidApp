@@ -8,9 +8,10 @@ from app.decorators import admin_only
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
-    return render_template('index.html', title="Home Page", lessons={})
+    lessons = db.session.query(Lesson).all()
+    courses = db.session.query(Course).all()
+    return render_template('index.html', title="Home Page", lessons=lessons, courses=courses)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -52,7 +53,8 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user=user)
+    lessonsComplete = len(user.lessonsComplete)
+    return render_template('user.html', user=user, lessonsComplete=lessonsComplete)
 
 @app.route('/deleteUser/<username>')
 @login_required
@@ -126,3 +128,13 @@ def createCourse():
 def course(courseId):
     course = Course.query.filter_by(id=courseId).first_or_404()
     return render_template('course.html', title='Course', course=course)
+
+@app.route('/deleteCourse/<courseId>')
+@login_required
+@admin_only
+def deleteCourse(courseId):
+    course = Course.query.filter_by(id=courseId).first_or_404()
+    db.session.delete(course)
+    db.session.commit()
+    flash("Course '{}' successfully deleted.".format(course.name))
+    return redirect(url_for('index'))

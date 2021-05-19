@@ -1,0 +1,23 @@
+body {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    margin: auto;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.flashMessages {
+    min-height: 30px;
+    padding: 10px;
+    width: 400px;
+    margin: auto;
+    background-color: rgba(90,20,90,.4);
+    border-radius: 10px;
+}

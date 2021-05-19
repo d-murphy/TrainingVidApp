@@ -1,9 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    <p>Admin status:  {{ current_user.adminPrivilege }} </p>
-    {% for lesson in lessons %}
-    <div><p>{{ lesson.author.username }} says: <b>{{ lesson.name }}</b></p></div>
-    {% endfor %}
+    {% if not current_user.is_authenticated %}
+        <h1>Welcome</h1>
+        <p>This app hosts training videos.  You'll want to login to take any of the trainings.</p>
+    {% else %}
+        <h1>Welcome, {{ current_user.username }} </h1>
+    {% endif %}
+    <p>Here's a sample of our new content</p>    
+    <br />
+    Available Courses: 
+    <ul>
+        {% for course in courses %}
+        <li>{{ course.name }} </li>
+        {% endfor %}    
+    </ul>
+    <br />
+    Or take a single lesson: 
+    <ul>
+        {% for lesson in lessons %}
+        <li>{{ lesson.name }} </li>
+        {% endfor %}    
+    </ul>
+    <br />
+    Revisit an old lesson:  
+
 {% endblock %}

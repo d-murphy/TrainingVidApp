@@ -64,7 +64,7 @@ db.sqlite3-journal
 # Flask stuff:
 instance/
 .webassets-cache
-TrainingVidApp/app/static/uploads/image/
+**/static/uploads/
 
 # Scrapy stuff:
 .scrapy

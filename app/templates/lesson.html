@@ -3,6 +3,8 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <p>{{ lesson.name }} is the lesson name.</p>
+    <img src="{{ url_for('displayImg',filename=lesson.imgFileLoc) }}" alt="" />
+    <div>it should be right here</div>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>{{ form.submit() }}</p>

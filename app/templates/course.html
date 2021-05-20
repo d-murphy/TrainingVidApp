@@ -7,6 +7,7 @@
     <p>Lessons in Course:</p>
     {% for lesson in course.lessonsIncluded %}
     <p>
+    <img src="{{ url_for('displayImg',filename=lesson.imgFileLoc) }}" alt="" />
     Lesson ID: {{ lesson.id }}; Lesson Name: <b>{{ lesson.name }}</b>
     </p>
     {% endfor %}

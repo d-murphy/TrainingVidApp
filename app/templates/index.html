@@ -23,6 +23,7 @@
         {% endfor %}    
     </ul>
     <br />
+    {% if current_user.is_authenticated %}
     Revisit an old lesson:  
-
+    {% endif %}
 {% endblock %}

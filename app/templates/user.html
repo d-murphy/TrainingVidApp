@@ -18,28 +18,7 @@
 
     <hr>
     {% if user.adminPrivilege %}
-        <p>Admin Controls: </p>
-        <p>
-            <a href="{{ url_for('createLesson')}}">Create Lesson</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href="{{ url_for('createCourse')}}">Create Course</a> 
-        </p>
-
-        <p>Created Courses: </p>
-        <ul>
-        {% for course in user.coursesCreated %}
-            <li>
-                <b>{{ course.name }}
-            </li>
-        {% endfor %}
-        </ul>
-        <p>Created Lessons: </p>
-        <ul>
-        {% for lesson in user.lessonsComplete %}
-            <li>
-                <b>{{ lesson.name }}</b> 
-            </li>
-        {% endfor %}
-        </ul>
+        <a href="{{ url_for('admin', username=user.username) }}">Admin Controls</a>
     {% endif %}
 
 

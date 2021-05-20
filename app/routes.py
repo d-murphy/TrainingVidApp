@@ -1,10 +1,13 @@
 from app import app, db
 from app.models import User, Lesson, Course
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, Flask
 from flask_login import current_user, login_user, logout_user, login_required
 from app.forms import LoginForm, RegistrationForm, CompleteLesson, LessonForm, CourseForm
 from werkzeug.urls import url_parse
+from werkzeug.utils import secure_filename
 from app.decorators import admin_only
+import os
+
 
 @app.route('/')
 @app.route('/index')
@@ -56,6 +59,13 @@ def user(username):
     lessonsComplete = len(user.lessonsComplete)
     return render_template('user.html', user=user, lessonsComplete=lessonsComplete)
 
+@app.route('/admin/<username>')
+@login_required
+def admin(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('admin.html', user=user)
+
+
 @app.route('/deleteUser/<username>')
 @login_required
 @admin_only
@@ -66,6 +76,34 @@ def deleteUser(username):
     flash("User: {} successfully deleted.".format(user.username))
     return redirect(url_for('index'))
 
+ALLOWED_VIDEO_EXTENSIONS = {'mp4'}
+ALLOWED_IMAGE_EXTENSIONS = {'jpeg', 'jpg', 'png'}
+
+def allowed_file(filename, imgOrVid):
+    if(imgOrVid == 'Image'):
+        return '.' in filename and \
+            filename.rsplit('.',1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
+    else: 
+        return '.' in filename and \
+            filename.rsplit('.',1)[1].lower() in ALLOWED_VIDEO_EXTENSIONS
+
+def stopFileUpload(request, imgOrVid):
+    formFileName = 'imgFile' if imgOrVid=='Image' else 'vidFile'
+    if formFileName not in request.files:
+        flash(imgOrVid + " file not included.")
+        return True
+    file = request.files[formFileName]
+    if file.filename == '':
+        flash(imgOrVid + " file not included.")
+        return True
+    if len(file.filename)>100:
+        flash(imgOrVid + " filename is too long.")
+        return True
+    if not allowed_file(file.filename, imgOrVid):
+        flash(imgOrVid + " file extension is not accepted.")        
+        return True
+    return False
+
 @app.route('/createLesson', methods=['GET', 'POST'])
 @login_required
 @admin_only
@@ -73,8 +111,21 @@ def createLesson():
     form = LessonForm()
     if form.validate_on_submit():
         user = current_user
+        if stopFileUpload(request, 'Image'):
+            return render_template('createLesson.html', title='Create Lesson', form=form)
+        imgFile = request.files['imgFile']
+        imgFilename = secure_filename(imgFile.filename)
+        imgFilePath = os.path.join(app.config['UPLOAD_IMAGE_FOLDER'], imgFilename)
+        imgFile.save(imgFilePath)
+        if stopFileUpload(request, 'Video'):
+            return render_template('createLesson.html', title='Create Lesson', form=form)
+        vidFile = request.files['vidFile']
+        vidFilename = secure_filename(vidFile.filename)
+        vidFilePath = os.path.join(app.config['UPLOAD_IMAGE_FOLDER'], vidFilename)
+        vidFile.save(vidFilePath)
         lesson = Lesson(name=form.name.data, description=form.description.data, 
-                        duration=form.duration.data, createdBy=user.id )
+                        duration=form.duration.data, imgFileLoc=imgFilename,
+                        vidFileLoc=vidFilename, createdBy=user.id )
         db.session.add(lesson)
         db.session.commit()
         flash('Nice, you have created a lesson')
@@ -97,6 +148,9 @@ def lesson(lessonId):
         return redirect(url_for('user', username=user.username))
     return render_template('lesson.html', title='Lesson', form=form, lesson=lesson)
 
+@app.route('/displayImg/<filename>')
+def displayImg(filename):
+	return redirect(url_for('static', filename='uploads/image/' + filename), code=301)
 
 @app.route('/deleteLesson/<lessonId>')
 @login_required
@@ -123,7 +177,7 @@ def createCourse():
         return redirect(url_for('course', courseId=course.id))
     return render_template('createCourse.html', title='Create Course', form=form)
 
-@app.route('/course/<courseId>', methods=['GET', 'POST'])
+@app.route('/course/<courseId>')
 @login_required
 def course(courseId):
     course = Course.query.filter_by(id=courseId).first_or_404()

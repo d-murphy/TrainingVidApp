@@ -54,6 +54,8 @@ class Lesson(db.Model):
     name = db.Column(db.String(120), index=True, unique=True)
     description = db.Column(db.String(400))
     duration = db.Column(db.Integer)
+    imgFileLoc = db.Column(db.String(120))
+    vidFileLoc = db.Column(db.String(120))
     dateAdded = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     createdBy = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -62,6 +64,7 @@ class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True)
     description = db.Column(db.String(400))
+    imgFileLoc = db.Column(db.String(120))
     createdBy = db.Column(db.Integer, db.ForeignKey('user.id'))
     lessonsIncluded = db.relationship('Lesson', secondary=courseVideosAssociation, backref="lessonInCourse")
 

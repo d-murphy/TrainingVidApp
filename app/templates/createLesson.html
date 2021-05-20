@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Create Lesson</h1>
-    <form action="" method="post">
+    <form action="" method="post" enctype = "multipart/form-data">
         {{ form.hidden_tag() }}
         <p>
             {{ form.name.label }}<br>
@@ -24,6 +24,18 @@
             {% for error in form.duration.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
+        </p>
+        <p>
+            <label for="imgFile">
+                Select Cover Image:
+                <input type=file name='imgFile'>
+            </label>
+        </p>
+        <p>
+            <label for="vidFile">
+                Select Video: 
+                <input type=file name='vidFile'>
+            </label>
         </p>
         <p>{{ form.submit() }}</p>
     </form>

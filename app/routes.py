@@ -1,6 +1,6 @@
 from app import app, db
 from app.models import User, Lesson, Course
-from flask import render_template, request, flash, redirect, url_for, Flask
+from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app.forms import LoginForm, RegistrationForm, CompleteLesson, LessonForm, CourseForm
 from werkzeug.urls import url_parse
@@ -89,11 +89,14 @@ def allowed_file(filename, imgOrVid):
 
 def stopFileUpload(request, imgOrVid):
     formFileName = 'imgFile' if imgOrVid=='Image' else 'vidFile'
+    print(request.get_data())
     if formFileName not in request.files:
+        print('here?')
         flash(imgOrVid + " file not included.")
         return True
     file = request.files[formFileName]
     if file.filename == '':
+        print(' or here?')
         flash(imgOrVid + " file not included.")
         return True
     if len(file.filename)>100:
@@ -121,7 +124,7 @@ def createLesson():
             return render_template('createLesson.html', title='Create Lesson', form=form)
         vidFile = request.files['vidFile']
         vidFilename = secure_filename(vidFile.filename)
-        vidFilePath = os.path.join(app.config['UPLOAD_IMAGE_FOLDER'], vidFilename)
+        vidFilePath = os.path.join(app.config['UPLOAD_VIDEO_FOLDER'], vidFilename)
         vidFile.save(vidFilePath)
         lesson = Lesson(name=form.name.data, description=form.description.data, 
                         duration=form.duration.data, imgFileLoc=imgFilename,
@@ -152,6 +155,11 @@ def lesson(lessonId):
 def displayImg(filename):
 	return redirect(url_for('static', filename='uploads/image/' + filename), code=301)
 
+@app.route('/displayVid/<filename>')
+def displayVid(filename):
+	return redirect(url_for('static', filename='uploads/video/' + filename), code=301)
+
+
 @app.route('/deleteLesson/<lessonId>')
 @login_required
 @admin_only
@@ -169,8 +177,16 @@ def createCourse():
     form = CourseForm()
     if form.validate_on_submit():
         user = current_user
+        if stopFileUpload(request, 'Image'):
+            print("yeah here")
+            return render_template('createCourse.html', title='Create Course', form=form)
+        imgFile = request.files['imgFile']
+        imgFilename = secure_filename(imgFile.filename)
+        imgFilePath = os.path.join(app.config['UPLOAD_IMAGE_FOLDER'], imgFilename)
+        imgFile.save(imgFilePath)
+
         course = Course(name=form.name.data, description=form.description.data, 
-                        createdBy=user.id )
+                        imgFileLoc=imgFilename, createdBy=user.id )
         db.session.add(course)
         db.session.commit()
         flash('Course created successfully.')

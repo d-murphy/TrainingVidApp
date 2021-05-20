@@ -4,7 +4,10 @@
     <h1>{{ title }}</h1>
     <p>{{ lesson.name }} is the lesson name.</p>
     <img src="{{ url_for('displayImg',filename=lesson.imgFileLoc) }}" alt="" />
-    <div>it should be right here</div>
+    <video width="320" height="240" controls>
+        <source src="{{ url_for('displayVid',filename=lesson.vidFileLoc) }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>{{ form.submit() }}</p>

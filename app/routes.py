@@ -6,6 +6,7 @@ from app.forms import LoginForm, RegistrationForm, CompleteLesson, LessonForm, C
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from app.decorators import admin_only
+from uuid import uuid4
 import os
 
 
@@ -89,14 +90,11 @@ def allowed_file(filename, imgOrVid):
 
 def stopFileUpload(request, imgOrVid):
     formFileName = 'imgFile' if imgOrVid=='Image' else 'vidFile'
-    print(request.get_data())
     if formFileName not in request.files:
-        print('here?')
         flash(imgOrVid + " file not included.")
         return True
     file = request.files[formFileName]
     if file.filename == '':
-        print(' or here?')
         flash(imgOrVid + " file not included.")
         return True
     if len(file.filename)>100:
@@ -178,20 +176,42 @@ def createCourse():
     if form.validate_on_submit():
         user = current_user
         if stopFileUpload(request, 'Image'):
-            print("yeah here")
             return render_template('createCourse.html', title='Create Course', form=form)
         imgFile = request.files['imgFile']
-        imgFilename = secure_filename(imgFile.filename)
+        imgFilename = secure_filename(imgFile.filename) 
+        imgFilename = str(uuid4()) + imgFilename
         imgFilePath = os.path.join(app.config['UPLOAD_IMAGE_FOLDER'], imgFilename)
         imgFile.save(imgFilePath)
-
         course = Course(name=form.name.data, description=form.description.data, 
                         imgFileLoc=imgFilename, createdBy=user.id )
+        course.imgFileLoc = imgFilename
         db.session.add(course)
         db.session.commit()
         flash('Course created successfully.')
         return redirect(url_for('course', courseId=course.id))
     return render_template('createCourse.html', title='Create Course', form=form)
+
+@app.route('/editCourse/<courseId>')
+@login_required
+@admin_only
+def editCourse(courseId):
+    course = Course.query.filter_by(id=courseId).first_or_404()
+    lessonsInCourse = course.lessonsIncluded
+    lessonIDsInCourse = set([lesson.id for lesson in lessonsInCourse])
+    lessonsAll = Lesson.query.all()
+    lessonsUserCreated = []
+    lessonsOthersCreated = []
+    for lesson in lessonsAll: 
+        if lesson.id in lessonIDsInCourse:
+            continue
+        if lesson.createdBy == course.createdBy:
+            lessonsUserCreated.append(lesson)
+        else:
+            lessonsOthersCreated.append(lesson) 
+    return render_template('editCourse.html', title='Edit Course', course=course,
+        lessonsInCourse=lessonsInCourse, lessonsUserCreated=lessonsUserCreated, lessonsOthersCreated=lessonsOthersCreated)
+
+    
 
 @app.route('/course/<courseId>')
 @login_required

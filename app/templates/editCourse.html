@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/editCourse.css">
+    <h1>Course: {{ course.name }}</h1>
+    <hr>
+    <p>Description: {{ course.description }}</p>
+    <img src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="" />
+
+    Lessons User Created:
+    <div class="container">
+        {% for lesson in lessonsUserCreated %}
+            <div class="draggable" draggable="true">Lesson ID: {{ lesson.id }} ; 
+                Lesson Name: {{ lesson.name }} </div>
+        {% endfor %}
+    </div>
+
+    Lessons Others Created:
+
+    <div class="container">
+        {% for lesson in lessonsOthersCreated %}
+            <div class="draggable" draggable="true">Lesson ID: {{ lesson.id }} ; 
+                Lesson Name: {{ lesson.name }} </div>
+        {% endfor %}
+    </div>
+
+    <p>Lessons in Course:</p>
+
+    <div class="container">
+        {% for lesson in lessonsIncluded %}
+            <div class="draggable" draggable="true">Lesson ID: {{ lesson.id }} ; 
+                Lesson Name: {{ lesson.name }} </div>
+        {% endfor %}
+    </div>
+
+    {% block javascript %}
+        <script src="/static/editCourse.js"></script>
+    {% endblock %}
+{% endblock %}
+
+

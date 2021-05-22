@@ -1,7 +1,11 @@
 # Must Do List
 
-* create edit course page with lesson order control (add a hidden form element to capture course order and have javascript write to it, then use to save lesson order)
-* pagination on options?
+* create course and edit course are the same
+* need to add logic to delete image and add new if included
+
+* add scroll bar to divs in edit course.  
+* position read only elements on top of page and edit elements below
+ 
 * use complete course button, but javascript to only display after video is finished
 * pause every 10 seconds?
 * use next? within url of videos during a course

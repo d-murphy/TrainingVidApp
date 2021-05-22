@@ -2,7 +2,7 @@ from app import app, db
 from app.models import User, Lesson, Course
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
-from app.forms import LoginForm, RegistrationForm, CompleteLesson, LessonForm, CourseForm
+from app.forms import LoginForm, RegistrationForm, CompleteLesson, LessonForm, CourseForm, EditCourse
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from app.decorators import admin_only
@@ -191,25 +191,43 @@ def createCourse():
         return redirect(url_for('course', courseId=course.id))
     return render_template('createCourse.html', title='Create Course', form=form)
 
-@app.route('/editCourse/<courseId>')
+@app.route('/editCourse/<courseId>', methods=['GET','POST'])
 @login_required
 @admin_only
 def editCourse(courseId):
+    form = EditCourse()
     course = Course.query.filter_by(id=courseId).first_or_404()
-    lessonsInCourse = course.lessonsIncluded
-    lessonIDsInCourse = set([lesson.id for lesson in lessonsInCourse])
-    lessonsAll = Lesson.query.all()
-    lessonsUserCreated = []
-    lessonsOthersCreated = []
-    for lesson in lessonsAll: 
-        if lesson.id in lessonIDsInCourse:
-            continue
-        if lesson.createdBy == course.createdBy:
-            lessonsUserCreated.append(lesson)
-        else:
-            lessonsOthersCreated.append(lesson) 
-    return render_template('editCourse.html', title='Edit Course', course=course,
-        lessonsInCourse=lessonsInCourse, lessonsUserCreated=lessonsUserCreated, lessonsOthersCreated=lessonsOthersCreated)
+    if form.validate_on_submit():
+        course.name = form.name.data
+        course.description = form.description.data
+        course.lessonsIncluded = []
+        lessonsToAppend = form.lessonsIncluded.data.split(',')
+        lessonsToAppend = lessonsToAppend[:-1]
+        for lessonId in lessonsToAppend:
+            lessonObj = Lesson.query.get(lessonId)
+            course.lessonsIncluded.append(lessonObj)
+        db.session.commit()
+        flash('Your changes were saved')
+        return redirect(url_for('editCourse', courseId=courseId))
+    elif request.method == 'GET':
+        lessonsInCourse = course.lessonsIncluded
+        lessonIDsInCourse = set([lesson.id for lesson in lessonsInCourse])
+        lessonsAll = Lesson.query.all()
+        lessonsUserCreated = []
+        lessonsOthersCreated = []
+        for lesson in lessonsAll: 
+            if lesson.id in lessonIDsInCourse:
+                continue
+            if lesson.createdBy == course.createdBy:
+                lessonsUserCreated.append(lesson)
+            else:
+                lessonsOthersCreated.append(lesson) 
+        form.name.data = course.name
+        form.description.data = course.description
+        form.lessonsIncluded.data = ''.join(str(lessonID) + ',' for lessonID in lessonIDsInCourse ) 
+    return render_template('editCourse.html', title='Edit Course', course=course, form=form,
+        lessonsInCourse=lessonsInCourse, lessonsUserCreated=lessonsUserCreated, 
+        lessonsOthersCreated=lessonsOthersCreated, lessonIDsInCourse=lessonIDsInCourse)
 
     
 

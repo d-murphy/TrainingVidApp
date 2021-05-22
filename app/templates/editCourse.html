@@ -2,15 +2,41 @@
 
 {% block content %}
 <link rel="stylesheet" href="/static/editCourse.css">
-    <h1>Course: {{ course.name }}</h1>
-    <hr>
-    <p>Description: {{ course.description }}</p>
+<h1>Edit Profile</h1>
+<form action="" method="post" enctype = "multipart/form-data">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.name.label }}<br>
+        {{ form.name(size=32) }}<br>
+        {% for error in form.name.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.description.label }}<br>
+        {{ form.description(size=120) }}<br>
+        {% for error in form.description.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        <label for="imgFile">
+            Select a file to add a new cover image:
+            <input type=file name='imgFile'>
+        </label>
+    </p>
+    <p >
+        {{ form.lessonsIncluded.label }}<br>
+        {{ form.lessonsIncluded(size=120) }}<br>
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
     <img src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="" />
 
     Lessons User Created:
     <div class="container">
         {% for lesson in lessonsUserCreated %}
-            <div class="draggable" draggable="true">Lesson ID: {{ lesson.id }} ; 
+            <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
                 Lesson Name: {{ lesson.name }} </div>
         {% endfor %}
     </div>
@@ -19,16 +45,16 @@
 
     <div class="container">
         {% for lesson in lessonsOthersCreated %}
-            <div class="draggable" draggable="true">Lesson ID: {{ lesson.id }} ; 
+            <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
                 Lesson Name: {{ lesson.name }} </div>
         {% endfor %}
     </div>
 
     <p>Lessons in Course:</p>
 
-    <div class="container">
-        {% for lesson in lessonsIncluded %}
-            <div class="draggable" draggable="true">Lesson ID: {{ lesson.id }} ; 
+    <div class="container" id="LessonsInCourse">
+        {% for lesson in lessonsInCourse %}
+            <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
                 Lesson Name: {{ lesson.name }} </div>
         {% endfor %}
     </div>

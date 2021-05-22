@@ -7,9 +7,19 @@ draggables.forEach(draggable => {
   })
 
   draggable.addEventListener('dragend', () => {
-    draggable.classList.remove('dragging')
-  })
-})
+          draggable.classList.remove('dragging')
+            // saving lessons in course in hidden form field
+            let newLessonOrderStr = ""
+            const lessonsInCourse = document.getElementById('LessonsInCourse').getElementsByClassName("draggable")
+            const newLessonOrder = Array.from(lessonsInCourse).forEach(lesson => {
+                console.log(lesson.id)
+                newLessonOrderStr += lesson.id + ","
+            })
+            document.getElementById("lessonsIncluded").value = newLessonOrderStr
+        })
+    })
+
+
 
 containers.forEach(container => {
   container.addEventListener('dragover', e => {

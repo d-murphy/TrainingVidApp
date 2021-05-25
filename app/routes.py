@@ -5,8 +5,10 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.forms import LoginForm, RegistrationForm, CompleteLesson, LessonForm, CourseForm, EditCourse
 from werkzeug.urls import url_parse
 from app.decorators import admin_only
-from app.utils import stopFileUpload, saveFileReturnFileName, changeFileReturnFileName, deleteFile, findLessonsGroups
+from app.utils import stopFileUpload, saveFileReturnFileName, changeFileReturnFileName, \
+    deleteFile, findLessonsGroups, formElToAppendLessons, formElToReturnCoursepath
 from sqlalchemy.exc import IntegrityError
+import json
 
 
 @app.route('/')
@@ -109,7 +111,7 @@ def createLesson():
 @admin_only
 def editLesson(lessonId):
     form = LessonForm()
-    lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
+    lesson = db.session.query(Lesson).filter_by(id=lessonId).first_or_404()
     if form.validate_on_submit():
         lesson.name = form.name.data
         lesson.description = form.description.data
@@ -145,8 +147,31 @@ def lesson(lessonId):
     if form.validate_on_submit():
         user.completeLesson(lesson)
         db.session.commit()
-        # flash('Congratulations, you have finished the lesson')
-        return redirect(url_for('user', username=user.username))
+        flash('Congratulations, you have finished the lesson')
+        return redirect(url_for('index'))
+    return render_template('lesson.html', title='Lesson', form=form, lesson=lesson)
+
+
+@app.route('/lessonInCourse/<lessonId>/<courseId>', methods=['GET', 'POST'])
+@login_required
+def lessonInCourse(lessonId,courseId):
+    lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
+    course = Course.query.filter_by(id=courseId).first_or_404()
+    lessonsInCourse = course.lessonsIncluded
+    lessonIDsInCourse = [str(lesson.id) for lesson in lessonsInCourse]
+    form = CompleteLesson()
+    user = current_user
+    if form.validate_on_submit():
+        user.completeLesson(lesson)
+        db.session.commit()
+        if lessonId==lessonIDsInCourse[-1]:
+            flash('Course Complete! Congratulations')
+            return redirect(url_for('index'))
+        else:
+            flash("Lesson Complete! On to the Course's next Lesson")
+            indexOfNextLesson = lessonIDsInCourse.index(lessonId) + 1
+            idOfNextLesson = lessonIDsInCourse[indexOfNextLesson]
+            return redirect(url_for('lessonInCourse', lessonId=idOfNextLesson, courseId=courseId))
     return render_template('lesson.html', title='Lesson', form=form, lesson=lesson)
 
 @app.route('/deleteLesson/<lessonId>')
@@ -174,12 +199,7 @@ def createCourse():
         imgFilename = saveFileReturnFileName(request, 'Image')
         course = Course(name=form.name.data, description=form.description.data, 
                         imgFileLoc=imgFilename, createdBy=user.id )
-        course.lessonsIncluded = []
-        lessonsToAppend = form.lessonsIncluded.data.split(',')[:-1]
-        for lessonId in lessonsToAppend:
-            lessonObj = Lesson.query.get(lessonId)
-            course.lessonsIncluded.append(lessonObj)
-        db.session.add(course)
+        formElToAppendLessons(form.lessonsIncluded, course)
         db.session.commit()
         flash('Course created successfully.')
         return redirect(url_for('editCourse', courseId=course.id))
@@ -193,20 +213,17 @@ def createCourse():
 @admin_only
 def editCourse(courseId):
     form = CourseForm()
-    course = Course.query.filter_by(id=courseId).first_or_404()
+    course = db.session.query(Course).filter_by(id=courseId).first_or_404()
     if form.validate_on_submit():
         course.name = form.name.data
         course.description = form.description.data
-        course.lessonsIncluded = []
-        lessonsToAppend = form.lessonsIncluded.data.split(',')[:-1]
-        for lessonId in lessonsToAppend:
-            lessonObj = Lesson.query.get(lessonId)
-            course.lessonsIncluded.append(lessonObj)
+        formElToAppendLessons(form.lessonsIncluded, course)
         if request.files['imgFile']:
             if stopFileUpload(request, 'Image'):
                 return render_template(url_for('editCourse'), courseId=courseId, title='Edit Course', form=form)
             course.imgFileLoc = changeFileReturnFileName(request, 'Image', course.imgFileLoc)
         db.session.commit()
+        print(course.coursePath)
         flash('Your changes were saved')
         return redirect(url_for('editCourse', courseId=courseId))
     elif request.method == 'GET':

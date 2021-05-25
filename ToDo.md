@@ -1,34 +1,21 @@
 # Must Do List
 
-
-* drag and drop prevent courses you created from being dropped in courses others created
-
+* css overhaul
+* use complete course button, but javascript to only display after video is finished
 * add scroll bar to divs in edit course.  
 * position read only elements on top of page and edit elements below
- 
-* use complete course button, but javascript to only display after video is finished
-* pause every 10 seconds?
-* use next? within url of videos during a course
-* if view video outside of course, return to homepage.  
-* search lessons and videos?  Maybe a second server request within the page
-
-* does deleting course cascade to videos?  add to test?
-* check if twice completed lessons creates an issue
-* creating a report suite?  user report?
-
-* improve file organization
 * Add a unit test
+* check if twice completed lessons creates an issue
+* creating an api for a reporting suite?  user report?
 * background job?
 * update home and user pages 
-* add full text search to 1. lesson selection in course edit 2. lesson/course catalog
 
 # May Do
 * add password for admin access
 * add email password reset
-* add new lessons to the homepage
-* Play it again option?
+* drag and drop prevent courses you created from being dropped in courses others created
 * add text indexing to descriptions?
-* create admin route
+* add full text search to 1. lesson selection in course edit 2. lesson/course catalog
 
 
 Completed: 
@@ -46,6 +33,7 @@ Completed:
 * figure out lessons not completed and lessons created by user ( with Josh )
 * create course and edit course should appear the same though app logic is different
 * add logic to change image and delete old
+* Create a second lesson view to navigate to next lesson within course
 
 
 
@@ -56,6 +44,9 @@ Roadblocks encountered / Lessons Learned:
 * surprised to learn image calls should be requested via a route and not just reference the file location
 * use of continue in for loop to prevent extra layer of nesting from (Josh)
 * use uuid4 to create unique IDs for the image (from Josh); decided not to labels images with course id which would require two db.session.commits
+* spent a lot of time trying to connect lessons within a course.  My initial solution might have been failing because I wasn't returning my redirect.  Final outcome is cleaner though.  
+
+
 
 
 

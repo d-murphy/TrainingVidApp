@@ -1,8 +1,8 @@
-"""added unique constraint to course name
+"""removed coursePath
 
-Revision ID: ac2063e55bdd
+Revision ID: 4c3618def30d
 Revises: 
-Create Date: 2021-05-24 11:27:01.196123
+Create Date: 2021-05-25 14:27:55.066093
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ac2063e55bdd'
+revision = '4c3618def30d'
 down_revision = None
 branch_labels = None
 depends_on = None

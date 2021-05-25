@@ -4,7 +4,7 @@ from flask import flash
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 from uuid import uuid4
-import os
+import os, json
 
 
 
@@ -81,3 +81,22 @@ def findLessonsGroups(course):
         else:
             returnDict['lessonsOthersCreated'].append(lesson) 
     return returnDict
+
+def formElToAppendLessons(lessonsIncludeFormEl, course):
+    lessonsToAppend = lessonsIncludeFormEl.data.split(',')[:-1]
+    course.lessonsIncluded = []
+    for lessonId in lessonsToAppend:
+        lessonObj = Lesson.query.get(lessonId)
+        course.lessonsIncluded.append(lessonObj)
+
+def formElToReturnCoursepath(lessonsIncludeFormEl):
+    lessonsToAppend = lessonsIncludeFormEl.data.split(',')[:-1]
+    coursePath = {}
+    for i in range(len(lessonsToAppend)):
+        if i < len(lessonsToAppend) - 1:
+            coursePath[lessonsToAppend[i]] = lessonsToAppend[i+1]
+        else:
+            coursePath[lessonsToAppend[i]] = 'end'
+    coursePath = json.dumps(coursePath)
+    print(coursePath)
+    return coursePath 

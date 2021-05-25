@@ -5,10 +5,15 @@
     <hr>
     <p>Description: {{ course.description }}</p>
     <img src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="" />
-    <p>Lessons in Course:</p>
-    {% for lesson in course.lessonsIncluded %}
-    <p>
-    Lesson ID: {{ lesson.id }}; Lesson Name: <b>{{ lesson.name }}</b>
-    </p>
-    {% endfor %}
+    {% if course.lessonsIncluded %}
+        <a href="{{ url_for('lessonInCourse', lessonId=course.lessonsIncluded[0].id, courseId=course.id ) }}">
+            Start the Course!
+        </a>
+        <p>Lessons in Course:</p>
+            {% for lesson in course.lessonsIncluded %}
+            <p>
+            Lesson Name: {{ lesson.name }}
+            </p>
+            {% endfor %}
+    {% endif %}
 {% endblock %}

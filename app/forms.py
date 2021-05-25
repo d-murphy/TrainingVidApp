@@ -39,6 +39,7 @@ class CompleteLesson(FlaskForm):
 class CourseForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     description = TextAreaField ('Description', validators=[DataRequired()])
+    lessonsIncluded = TextAreaField('LessonsIncluded')
     submit = SubmitField('Create')
 
 class EditCourse(FlaskForm):

@@ -1,7 +1,7 @@
 # Must Do List
 
-* create course and edit course are the same
-* need to add logic to delete image and add new if included
+
+* drag and drop prevent courses you created from being dropped in courses others created
 
 * add scroll bar to divs in edit course.  
 * position read only elements on top of page and edit elements below
@@ -44,6 +44,8 @@ Completed:
 * Add video images (file upload)
 * tried to save user before saving file to grab course ID, but it doesn't work this way.  Instead used uuid
 * figure out lessons not completed and lessons created by user ( with Josh )
+* create course and edit course should appear the same though app logic is different
+* add logic to change image and delete old
 
 
 

@@ -1,8 +1,8 @@
-"""reinitiated db
+"""added unique constraint to course name
 
-Revision ID: 9dad223af21c
+Revision ID: ac2063e55bdd
 Revises: 
-Create Date: 2021-05-18 15:39:51.934084
+Create Date: 2021-05-24 11:27:01.196123
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9dad223af21c'
+revision = 'ac2063e55bdd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,16 +33,19 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=True),
     sa.Column('description', sa.String(length=400), nullable=True),
+    sa.Column('imgFileLoc', sa.String(length=120), nullable=True),
     sa.Column('createdBy', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['createdBy'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_course_name'), 'course', ['name'], unique=False)
+    op.create_index(op.f('ix_course_name'), 'course', ['name'], unique=True)
     op.create_table('lesson',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=True),
     sa.Column('description', sa.String(length=400), nullable=True),
     sa.Column('duration', sa.Integer(), nullable=True),
+    sa.Column('imgFileLoc', sa.String(length=120), nullable=True),
+    sa.Column('vidFileLoc', sa.String(length=120), nullable=True),
     sa.Column('dateAdded', sa.DateTime(), nullable=True),
     sa.Column('createdBy', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['createdBy'], ['user.id'], ),

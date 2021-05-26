@@ -14,9 +14,15 @@ import json
 @app.route('/')
 @app.route('/index')
 def index():
-    lessons = db.session.query(Lesson).all()
-    courses = db.session.query(Course).all()
-    return render_template('index.html', title="Home Page", lessons=lessons, courses=courses)
+    lessons = db.session.query(Lesson).limit(3).all()
+    courses = db.session.query(Course).limit(3).all()
+    if current_user.is_authenticated:
+        user = db.session.query(User).filter_by(id=current_user.id).one_or_none()
+        userCourses = user.coursesEnrolled[0:3]
+    else:
+        userCourses=[]
+    return render_template('index.html', title="Home Page", lessons=lessons, 
+                            courses=courses, userCourses=userCourses)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -149,7 +155,7 @@ def lesson(lessonId):
         db.session.commit()
         flash('Congratulations, you have finished the lesson')
         return redirect(url_for('index'))
-    return render_template('lesson.html', title='Lesson', form=form, lesson=lesson)
+    return render_template('lesson.html', form=form, lesson=lesson)
 
 
 @app.route('/lessonInCourse/<lessonId>/<courseId>', methods=['GET', 'POST'])
@@ -243,6 +249,17 @@ def editCourse(courseId):
 def course(courseId):
     course = Course.query.filter_by(id=courseId).first_or_404()
     return render_template('course.html', title='Course', course=course)
+
+@app.route('/enrollInCourse/<courseId>')
+@login_required
+def enrollInCourse(courseId):
+    user = current_user
+    course = db.session.query(Course).filter_by(id=courseId).first()
+    user.coursesEnrolled.append(course)
+    db.session.commit()
+    flash('Successfully enrolled in course.')
+    return redirect(url_for('course', courseId = course.id))
+
 
 @app.route('/deleteCourse/<courseId>')
 @login_required

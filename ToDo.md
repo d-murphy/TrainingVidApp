@@ -1,9 +1,10 @@
 # Must Do List
 
-* css overhaul
 * use complete course button, but javascript to only display after video is finished
+* css for mobile
+* css for lesson / course pages
+* css for admin pages
 * add scroll bar to divs in edit course.  
-* position read only elements on top of page and edit elements below
 * Add a unit test
 * check if twice completed lessons creates an issue
 * creating an api for a reporting suite?  user report?
@@ -34,6 +35,7 @@ Completed:
 * create course and edit course should appear the same though app logic is different
 * add logic to change image and delete old
 * Create a second lesson view to navigate to next lesson within course
+* css for homepage
 
 
 

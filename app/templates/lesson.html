@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
-    <p>{{ lesson.name }} is the lesson name.</p>
-    <img src="{{ url_for('displayImg',filename=lesson.imgFileLoc) }}" alt="" />
-    <video width="320" height="240" controls>
-        <source src="{{ url_for('displayVid',filename=lesson.vidFileLoc) }}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>{{ form.submit() }}</p>
-    </form>
+    <div class="lessonDisplay">
+        <div class="infoRow">
+            <h3>{{ lesson.name }}</h3>
+            <p>{{lesson.description}}</p>
+        </div>
+        <video width="600" height="400" controls>
+            <source src="{{ url_for('displayVid',filename=lesson.vidFileLoc) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>{{ form.submit() }}</p>
+        </form>
+    </div>
+
 {% endblock %}

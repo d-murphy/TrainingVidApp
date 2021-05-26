@@ -2,28 +2,51 @@
 
 {% block content %}
     {% if not current_user.is_authenticated %}
-        <h1>Welcome</h1>
-        <p>This app hosts training videos.  You'll want to login to take any of the trainings.</p>
+        <h3>Welcome</h3>
+        <p>You'll find a variety of training videos on this app.&nbsp;&nbsp;You'll want to login to take any of the trainings.</p>
+        <p>Here's a sampling of available courses.</p>
     {% else %}
-        <h1>Welcome, {{ current_user.username }} </h1>
+        <h3>Welcome, {{ current_user.username }} </h3>
+        {% if userCourses %}
+            <p>Here are the courses you're currently enrolled in:</p>
+            <div class="imageRow">
+                {% for course in userCourses %}
+                <a href="{{ url_for('course',courseId=course.id) }}" class="disabled-link">
+                    <div class="itemDisplay">
+                        <img src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="course image" />
+                        <div class="itemDisplayName">{{ course.name }}</div>
+                        <div class="itemDisplayDesc">{{ course.description }}</div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        <p>Other courses in the catalog: </p>
+        {% else %}
+        <p>Courses in the catalog: </p>
+        {% endif %}
     {% endif %}
-    <p>Here's a sample of our new content</p>    
-    <br />
-    Available Courses: 
-    <ul>
-        {% for course in courses %}
-        <li>{{ course.name }} </li>
-        {% endfor %}    
-    </ul>
-    <br />
-    Or take a single lesson: 
-    <ul>
+        <div class="imageRow">
+            {% for course in courses %}
+            <a href="{{ url_for('course',courseId=course.id) }}" class="disabled-link">
+                <div class="itemDisplay">
+                    <img src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="course image" />
+                    <div class="itemDisplayName">{{ course.name }}</div>
+                    <div class="itemDisplayDesc">{{ course.description }}</div>
+                </div>
+            </a>
+            {% endfor %}    
+        </div>
+    <p>Or take a single lesson: </p>
+    <div class="imageRow">
         {% for lesson in lessons %}
-        <li>{{ lesson.name }} </li>
-        {% endfor %}    
-    </ul>
+            <a href="{{ url_for('lesson',lessonId=lesson.id) }}" class="disabled-link">
+                <div class="itemDisplay">
+                    <img src="{{ url_for('displayImg',filename=lesson.imgFileLoc) }}" alt="course image" />
+                    <div class="itemDisplayName">{{ lesson.name }}</div>
+                    <div class="itemDisplayDesc">{{ lesson.description }}</div>
+                </div>
+            </a>
+        {% endfor %}   
+    </div> 
     <br />
-    {% if current_user.is_authenticated %}
-    Revisit an old lesson:  
-    {% endif %}
 {% endblock %}

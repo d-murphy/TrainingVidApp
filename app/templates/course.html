@@ -5,7 +5,9 @@
     <hr>
     <p>Description: {{ course.description }}</p>
     <img src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="" />
+
     {% if course.lessonsIncluded %}
+        <a href="{{ url_for('enrollInCourse', courseId=course.id) }}">Enroll in course</a>
         <a href="{{ url_for('lessonInCourse', lessonId=course.lessonsIncluded[0].id, courseId=course.id ) }}">
             Start the Course!
         </a>

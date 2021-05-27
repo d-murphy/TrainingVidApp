@@ -15,10 +15,16 @@ import json
 @app.route('/index')
 def index():
     lessons = db.session.query(Lesson).limit(3).all()
-    courses = db.session.query(Course).limit(3).all()
+    courses = db.session.query(Course).all()
     if current_user.is_authenticated:
         user = db.session.query(User).filter_by(id=current_user.id).one_or_none()
         userCourses = user.coursesEnrolled[0:3]
+        coursesToShow = []
+        for course in courses:
+            if course in user.coursesEnrolled: 
+                continue
+            coursesToShow.append(course)
+        courses = coursesToShow
     else:
         userCourses=[]
     return render_template('index.html', title="Home Page", lessons=lessons, 
@@ -144,18 +150,18 @@ def editLesson(lessonId):
         form.duration.data = lesson.duration
     return render_template('editLesson.html', title='Edit Course', lesson=lesson, form=form)
 
-@app.route('/lesson/<lessonId>', methods=['GET', 'POST'])
-@login_required
-def lesson(lessonId):
-    lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
-    form = CompleteLesson()
-    user = current_user
-    if form.validate_on_submit():
-        user.completeLesson(lesson)
-        db.session.commit()
-        flash('Congratulations, you have finished the lesson')
-        return redirect(url_for('index'))
-    return render_template('lesson.html', form=form, lesson=lesson)
+# @app.route('/lesson/<lessonId>', methods=['GET', 'POST'])
+# @login_required
+# def lesson(lessonId):
+#     lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
+#     form = CompleteLesson()
+#     user = current_user
+#     if form.validate_on_submit():
+#         user.completeLesson(lesson)
+#         db.session.commit()
+#         flash('Congratulations, you have finished the lesson')
+#         return redirect(url_for('index'))
+#     return render_template('lesson.html', form=form, lesson=lesson)
 
 
 @app.route('/lessonInCourse/<lessonId>/<courseId>', methods=['GET', 'POST'])
@@ -229,7 +235,6 @@ def editCourse(courseId):
                 return render_template(url_for('editCourse'), courseId=courseId, title='Edit Course', form=form)
             course.imgFileLoc = changeFileReturnFileName(request, 'Image', course.imgFileLoc)
         db.session.commit()
-        print(course.coursePath)
         flash('Your changes were saved')
         return redirect(url_for('editCourse', courseId=courseId))
     elif request.method == 'GET':
@@ -248,7 +253,9 @@ def editCourse(courseId):
 @login_required
 def course(courseId):
     course = Course.query.filter_by(id=courseId).first_or_404()
-    return render_template('course.html', title='Course', course=course)
+    user = current_user
+    userEnrolled = True if course in user.coursesEnrolled else False
+    return render_template('course.html', title='Course', course=course, userEnrolled=userEnrolled)
 
 @app.route('/enrollInCourse/<courseId>')
 @login_required

@@ -31,21 +31,21 @@ class LessonForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     description = TextAreaField ('Description', validators=[DataRequired()])
     duration = IntegerField('Duration (Minutes)', validators=[DataRequired(), NumberRange(min=0, message='Must enter a number greater than 0')])
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 class CompleteLesson(FlaskForm):
-    submit = SubmitField('Complete Lesson')
+    submit = SubmitField('Mark Complete')
 
 class CourseForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     description = TextAreaField ('Description', validators=[DataRequired()])
     lessonsIncluded = TextAreaField('LessonsIncluded')
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 class EditCourse(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     description = TextAreaField ('Description', validators=[DataRequired()])
     lessonsIncluded = TextAreaField('LessonsIncluded')
-    submit = SubmitField('Create')
+    submit = SubmitField('Save')
 
 

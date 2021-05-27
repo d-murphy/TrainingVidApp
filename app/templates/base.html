@@ -7,37 +7,40 @@
       <div class="nav">
         <div class="navLeft">
           <a href="{{ url_for('index') }}">
-            <img src="{{ url_for('displayImg',filename='VideoTrainingAppLogo.png') }}"
+            <img src="{{ url_for('displayImg',filename='EmployeeTrainingAppLogo.png') }}"
                  alt="Video Training App Logo and Link to Home Page" />
           </a>
         </div>
         <div class="navRight">
-          {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
-          {% else %}
-            {% if current_user.adminPrivilege %}
-              <a href="{{ url_for('admin', username=current_user.username) }}">Admin Control</a>
-              &nbsp;&nbsp;&nbsp;
+          <div class="navRightTop">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <div class="flashMessages">
+                    {% for message in messages %}
+                    <div>{{ message }}</div>
+                    {% endfor %}
+              </div>
             {% endif %}
-            <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-            &nbsp;&nbsp;&nbsp;
-            <a href="{{ url_for('logout') }}">Logout</a>
-          {% endif %}  
+            {% endwith %}   
+          </div>
+          <div class="navRightBottom">
+              {% if current_user.is_anonymous %}
+              <a href="{{ url_for('login') }}">Login</a>
+              {% else %}
+                {% if current_user.adminPrivilege %}
+                  <a href="{{ url_for('admin', username=current_user.username) }}">Admin Control</a>
+                  &nbsp;&nbsp;&nbsp;
+                {% endif %}
+                <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+                &nbsp;&nbsp;&nbsp;
+                <a href="{{ url_for('logout') }}">Logout</a>
+              {% endif %}  
+          </div>
         </div>
       </div>
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="flashMessages">
-          <ul>
-              {% for message in messages %}
-              <li>{{ message }}</li>
-              {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-      {% endwith %} 
       <div class="mainContentWrapper">
         {% block content %}{% endblock %}
       </div>
+      <script src="/static/base.js" ></script>
     </body>
 </html>

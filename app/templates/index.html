@@ -20,9 +20,12 @@
                 </a>
                 {% endfor %}
             </div>
+        {% endif %}
+
+        {% if userCourses and courses %}
         <p>Other courses in the catalog: </p>
-        {% else %}
-        <p>Courses in the catalog: </p>
+        {% elif courses %}
+        <p>Consider one of the courses in the catalog: </p>
         {% endif %}
     {% endif %}
         <div class="imageRow">
@@ -36,17 +39,4 @@
             </a>
             {% endfor %}    
         </div>
-    <p>Or take a single lesson: </p>
-    <div class="imageRow">
-        {% for lesson in lessons %}
-            <a href="{{ url_for('lesson',lessonId=lesson.id) }}" class="disabled-link">
-                <div class="itemDisplay">
-                    <img src="{{ url_for('displayImg',filename=lesson.imgFileLoc) }}" alt="course image" />
-                    <div class="itemDisplayName">{{ lesson.name }}</div>
-                    <div class="itemDisplayDesc">{{ lesson.description }}</div>
-                </div>
-            </a>
-        {% endfor %}   
-    </div> 
-    <br />
 {% endblock %}

@@ -1,19 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link rel="stylesheet" href="/static/lesson.css">
     <div class="lessonDisplay">
         <div class="infoRow">
-            <h3>{{ lesson.name }}</h3>
-            <p>{{lesson.description}}</p>
+            <div class="leftContent">
+                <h3>{{ lesson.name }}</h3>
+                <p>{{ lesson.description }}</p>    
+            </div>
+            <div class="rightContent">
+                <div class="disabled-wrapper">
+                    <form action="" method="post">
+                        {{ form.hidden_tag() }}
+                        <p>{{ form.submit(class="button disabled") }}</p>
+                    </form>    
+                </div>
+            </div>
         </div>
-        <video width="600" height="400" controls>
-            <source src="{{ url_for('displayVid',filename=lesson.vidFileLoc) }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <form action="" method="post">
-            {{ form.hidden_tag() }}
-            <p>{{ form.submit() }}</p>
-        </form>
+        <div class="player">
+            <video controls onloadeddata="showControls()">
+                <source src="{{ url_for('displayVid',filename=lesson.vidFileLoc) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="controls hideControls">
+              <button class="play" data-icon="P" aria-label="play pause toggle"></button>
+              <div class="timer">
+                <div></div>
+                <span aria-label="timer">00:00</span>
+              </div>
+            </div>
+        </div>
     </div>
-
+    {% block javascript %}
+        <script src="/static/lesson.js"></script>
+    {% endblock %}
 {% endblock %}

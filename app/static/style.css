@@ -12,26 +12,49 @@ body {
     }
   }
 
-.nav {
+.nav, .infoRow {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+}
+.nav {
     font-size: 18px;
     border-bottom: solid;
     min-height: 117px;
+    padding-bottom:10px;
 }
 
 .navRight {
     padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    
 }
 
+a:link {
+  color: rgba(140,60,140);
+}
+  
+  /* visited link */
+a:visited {
+    color: rgba(140,60,140);
+}
+
+.leftContent, .rightContent {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
 .flashMessages {
-    padding: 5px;
+    padding: 10px;
     width: 400px;
-    margin: auto;
-    margin-top: 10px;
-    background-color: rgba(90,20,90,.2);
+    display: flex;
+    justify-content: center;
+    background-color: rgba(90 ,20,90,.2);
     border-radius: 10px;
+    transition: opacity 500ms 3s;
 }
 
 .imageRow {
@@ -47,6 +70,7 @@ body {
     padding: 5px;
     border: solid rgba(200,200,200);
     border-radius: 10px;
+    box-shadow: 3px 3px 5px rgba(120,120,120,.7);
     margin: 5px;
 }
 
@@ -74,6 +98,7 @@ body {
     font-size: large;
     padding-top: 5px;
     padding-bottom: 5px;
+    color: black;
 }
 
 .itemDisplayDesc {
@@ -84,3 +109,60 @@ body {
     text-decoration: none;
     color: black;
 }
+
+.mainContentWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fadeout {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.hideControls {
+    visibility: hidden;
+}
+
+.course-image {
+    max-width: 600px;
+}
+
+.lessons-list {
+    display: flex;
+}
+
+.lesson-in-list {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 25px;
+    border: solid;
+    border-color: lightblue;
+    text-align: center;
+}
+
+.button {
+    background-color: thistle ; 
+    border: none;
+    border-radius: 5px;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.button:hover {
+    background-color: #c8afc8 
+}
+
+.disabled-wrapper {
+    cursor: not-allowed;
+}
+
+.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }

@@ -1,21 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Course: {{ course.name }}</h1>
-    <hr>
-    <p>Description: {{ course.description }}</p>
-    <img src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="" />
-
-    {% if course.lessonsIncluded %}
-        <a href="{{ url_for('enrollInCourse', courseId=course.id) }}">Enroll in course</a>
+    <h3>{{ course.name }}</h3>
+    <p>{{ course.description }}</p>
+    {% if userEnrolled %}
         <a href="{{ url_for('lessonInCourse', lessonId=course.lessonsIncluded[0].id, courseId=course.id ) }}">
             Start the Course!
         </a>
-        <p>Lessons in Course:</p>
+    {% else %}
+        <a href="{{ url_for('enrollInCourse', courseId=course.id) }}">Enroll in course</a>
+    {% endif %}
+    <br/>
+    <img class="course-image" src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="" />
+    {% if course.lessonsIncluded %}
+        <h3>Lessons in Course:</h3>
+
+        <div class="lessons-list">
             {% for lesson in course.lessonsIncluded %}
-            <p>
-            Lesson Name: {{ lesson.name }}
-            </p>
+            <div class="lesson-in-list">{{ lesson.name }}</div>
             {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}

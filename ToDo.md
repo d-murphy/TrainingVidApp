@@ -1,15 +1,13 @@
 # Must Do List
 
-* use complete course button, but javascript to only display after video is finished
-* css for mobile
-* css for lesson / course pages
-* css for admin pages
+* css for admin pages and Profile page
 * add scroll bar to divs in edit course.  
+* record course completions and move completed from enrolled list (i think this requires a new table)
+
 * Add a unit test
 * check if twice completed lessons creates an issue
 * creating an api for a reporting suite?  user report?
 * background job?
-* update home and user pages 
 
 # May Do
 * add password for admin access
@@ -17,6 +15,7 @@
 * drag and drop prevent courses you created from being dropped in courses others created
 * add text indexing to descriptions?
 * add full text search to 1. lesson selection in course edit 2. lesson/course catalog
+* css for mobile
 
 
 Completed: 
@@ -36,6 +35,11 @@ Completed:
 * add logic to change image and delete old
 * Create a second lesson view to navigate to next lesson within course
 * css for homepage
+* home page, adjust other courses to not show enrolled and latest lessons
+* On course page, alternate enroll in course / start the course.  
+* use complete course button, but javascript to only display after video is finished
+* fade out flash and relocate
+* css for lesson / course pages
 
 
 

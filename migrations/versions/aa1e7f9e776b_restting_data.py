@@ -1,8 +1,8 @@
-"""removed coursePath
+"""restting data
 
-Revision ID: 4c3618def30d
+Revision ID: aa1e7f9e776b
 Revises: 
-Create Date: 2021-05-25 14:27:55.066093
+Create Date: 2021-05-25 23:35:57.908930
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4c3618def30d'
+revision = 'aa1e7f9e776b'
 down_revision = None
 branch_labels = None
 depends_on = None

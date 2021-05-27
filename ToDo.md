@@ -1,8 +1,9 @@
 # Must Do List
 
+* show courses complete on profile page (with date!?)
+* log text is stretching panel on homepage
 * css for admin pages and Profile page
 * add scroll bar to divs in edit course.  
-* record course completions and move completed from enrolled list (i think this requires a new table)
 
 * Add a unit test
 * check if twice completed lessons creates an issue
@@ -40,6 +41,7 @@ Completed:
 * use complete course button, but javascript to only display after video is finished
 * fade out flash and relocate
 * css for lesson / course pages
+* record course completions and move completed from enrolled list
 
 
 

@@ -1,8 +1,10 @@
+from enum import unique
 from app import db, login
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.types import TypeDecorator
+import uuid
 
 
 usersCoursesAssociation = db.Table('usersCoursesAssociation', db.Model.metadata,
@@ -14,13 +16,34 @@ usersLessonCompleteAssociation = db.Table('usersLessonCompleteAssociation', db.M
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')), 
     db.Column('date_completed', db.DateTime, index=True, default=datetime.utcnow)
-
 )
 
 courseVideosAssociation = db.Table('courseVideosAssociation', db.Model.metadata,
     db.Column('course_id', db.Integer, db.ForeignKey('course.id')),
     db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
 )
+
+class usersCourseCompleteDate(db.Model):
+    __tablename__ = 'usersCourseCompleteDate'
+    id = db.Column(db.String, primary_key=True, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), primary_key=True)
+    dateCompleted = db.Column('date_completed', db.DateTime, index=True, default=datetime.utcnow)
+    user = db.relationship("User", backref=db.backref("usersCourseCompleteDate", cascade="all, delete-orphan"))
+    course = db.relationship("Course", backref=db.backref("usersCourseCompleteDate",cascade="all, delete-orphan"))
+
+    def __init__(self, user=None, course=None):
+        self.id = str(uuid.uuid4())
+        self.user = user
+        self.course = course
+        self.dateCompleted = datetime.utcnow()
+
+
+# usersCourseCompleteAssociation = db.Table('usersCourseCompleteAssociation', db.Model.metadata,
+#     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+#     db.Column('course_id', db.Integer, db.ForeignKey('course.id')), 
+#     db.Column('date_completed', db.DateTime, index=True, default=datetime.utcnow)
+# )
 
 
 class User(UserMixin, db.Model):
@@ -33,6 +56,22 @@ class User(UserMixin, db.Model):
 
     def completeLesson(self, lesson):
         self.lessonsComplete.append(lesson)
+        
+    # def completeCourse(self, course):
+    #     self.coursesComplete.append(course)
+    def completeCourse(self, course):
+        self.usersCourseCompleteDate.append(usersCourseCompleteDate(user=self, course=course))
+    
+    def unEnrollFromCourse(self, course):
+        self.coursesEnrolled.remove(course)
+
+    def getUsersCompletedCourses(self):
+        usersCompletedCourses = Course.query.join(
+            usersCourseCompleteDate, (usersCourseCompleteDate.course_id == Course.id)
+            ).filter(
+                usersCourseCompleteDate.user_id == self.id
+            )
+        return usersCompletedCourses
         
     def __repr__(self):
         return '<User {}>'.format(self.username) 
@@ -48,6 +87,9 @@ class User(UserMixin, db.Model):
     coursesCreated = db.relationship('Course', backref='author', lazy='dynamic')
     coursesEnrolled = db.relationship('Course', secondary=usersCoursesAssociation, backref="courseStudents")
     lessonsComplete = db.relationship('Lesson', secondary=usersLessonCompleteAssociation, backref="lessonStudents")
+    # coursesComplete = db.relationship('Course', secondary=usersCourseCompleteAssociation, backref="courseStudentsComplete")
+    coursesComplete = db.relationship('Course', secondary='usersCourseCompleteDate', viewonly=True)
+
 
 class Lesson(db.Model):
 
@@ -69,6 +111,8 @@ class Course(db.Model):
     imgFileLoc = db.Column(db.String(120))
     createdBy = db.Column(db.Integer, db.ForeignKey('user.id'))
     lessonsIncluded = db.relationship('Lesson', secondary=courseVideosAssociation, backref="lessonInCourse")
+    usersCompleted = db.relationship('User', secondary='usersCourseCompleteDate', viewonly=True)
+
 
 @login.user_loader
 def load_user(id):

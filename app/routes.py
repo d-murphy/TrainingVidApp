@@ -71,7 +71,10 @@ def register():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     lessonsComplete = len(user.lessonsComplete)
-    return render_template('user.html', user=user, lessonsComplete=lessonsComplete)
+    coursesComplete = len(user.coursesComplete)
+    usersCoursesCompleted = user.getUsersCompletedCourses()
+    return render_template('user.html', user=user, lessonsComplete=lessonsComplete, 
+                            coursesComplete=coursesComplete, usersCoursesCompleted=usersCoursesCompleted )
 
 @app.route('/admin/<username>')
 @login_required
@@ -174,12 +177,16 @@ def lessonInCourse(lessonId,courseId):
     form = CompleteLesson()
     user = current_user
     if form.validate_on_submit():
-        user.completeLesson(lesson)
-        db.session.commit()
         if lessonId==lessonIDsInCourse[-1]:
+            user.completeLesson(lesson)
+            user.completeCourse(course)
+            user.unEnrollFromCourse(course)
+            db.session.commit()
             flash('Course Complete! Congratulations')
             return redirect(url_for('index'))
         else:
+            user.completeLesson(lesson)
+            db.session.commit()
             flash("Lesson Complete! On to the Course's next Lesson")
             indexOfNextLesson = lessonIDsInCourse.index(lessonId) + 1
             idOfNextLesson = lessonIDsInCourse[indexOfNextLesson]

@@ -1,38 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>User: {{ user.username }}</h1>
-    <p>Lessons Complete: {{ lessonsComplete }}</p>
-    <p>Courses Complete: {{ coursesComplete }}</p>
-    <p>Completed Courses: </p>
+
+    <h3>User: {{ user.username }}</h3>
+    <div class="infoRow">
+        <p>
+            <div>Courses Complete: {{ coursesComplete }}</div>
+            <div>&nbsp;&nbsp;&nbsp;</div>    
+            <div>Lessons Complete: {{ lessonsComplete }}</div>
+        </p>
+    </div>
+    <h3>Completed Courses: </h3>
     {% if not usersCoursesCompleted %}
         <p>No completed courses</p>
     {% else %}
         {% for course in usersCoursesCompleted %}
         <p>
-            {{ course.name }} completed on {{ course.usersCourseCompleteDate[0].dateCompleted }} 
+            {{ course.name }}
+            <!-- {{ course.name }} completed on {{ moment(course.usersCourseCompleteDate[0].dateCompleted).format('LLL')  }}  -->
         </p>
         {% endfor %}
     {% endif %}
-
-    
-
-    <hr>
-    <p>Completed Lessons: </p>
-    {% if not user.lessonsComplete %}
-        <p>No completed lessons</p>
-    {% else %}
-        {% for lesson in user.lessonsComplete %}
-        <p>
-            {{ lesson.id }} says: <b>{{ lesson.name }}</b>
-        </p>
-        {% endfor %}
-    {% endif %}
-
-    <hr>
-    {% if user.adminPrivilege %}
-        <a href="{{ url_for('admin', username=user.username) }}">Admin Controls</a>
-    {% endif %}
-
-
 {% endblock %}

@@ -2,6 +2,8 @@
     background-color: #333;
     padding: 1rem;
     margin-top: 1rem;
+    width: 400px;
+    min-height: 60px;
   }
   
   .draggable {
@@ -13,4 +15,8 @@
   
   .draggable.dragging {
     opacity: .5;
+  }
+
+  input, textarea {
+    width: 100%;
   }

@@ -1,28 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="flexWrapper">
-        <h1>Admin Controls for {{ user.username }}</h1>
-        <p>
-            <a href="{{ url_for('createLesson')}}">Create Lesson</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href="{{ url_for('createCourse')}}">Create Course</a> 
-        </p>
-
-        <p>Created Courses: </p>
-        <ul>
-        {% for course in user.coursesCreated %}
-            <li>
-                <b>{{ course.name }}
-            </li>
-        {% endfor %}
-        </ul>
-        <p>Created Lessons: </p>
-        <ul>
-        {% for lesson in user.lessonsComplete %}
-            <li>
-                <b>{{ lesson.name }}</b> 
-            </li>
-        {% endfor %}
-        </ul>
-    </div>
+        <h3>Admin Controls for {{ user.username }}</h1>
+        <div class="infoRow">
+            <div>
+                <a href="{{ url_for('createLesson')}}">Create Lesson</a> &nbsp;&nbsp;
+            </div>
+            <div>
+                |&nbsp;&nbsp;<a href="{{ url_for('createCourse')}}">Create Course</a> 
+            </div>
+        </div>
+        <br/><br/>
+        <div>
+            <p>Created Courses: </p>
+            {% for course in user.coursesCreated %}
+                <div class="infoRow">
+                    <div class="growFlexItem">{{ course.name }}</div>
+                    <div><a href="/editCourse/{{course.id}}">Edit Course</a></div>&nbsp;&nbsp;
+                    <div><a href='/deleteCourse/{{ course.id }}'>Delete Course</a></div>
+                </div>
+            {% endfor %}
+            <p>Created Lessons: </p>
+            {% for lesson in user.lessonsCreated %}
+                <div class="infoRow">
+                    <div class="growFlexItem">{{ lesson.name }}</div>
+                    <div><a href="/editLesson/{{lesson.id}}">Edit Lesson</a></div>&nbsp;&nbsp;
+                    <div><a onclick="confirm()" href="/deleteLesson/{{ lesson.id }}">Delete Course</a></div>
+                </div>
+            {% endfor %}
 {% endblock %}

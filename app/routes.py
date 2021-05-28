@@ -219,9 +219,11 @@ def createCourse():
         course = Course(name=form.name.data, description=form.description.data, 
                         imgFileLoc=imgFilename, createdBy=user.id )
         formElToAppendLessons(form.lessonsIncluded, course)
+        db.session.add(course)
         db.session.commit()
         flash('Course created successfully.')
-        return redirect(url_for('editCourse', courseId=course.id))
+        print(course.id)
+        return redirect(url_for('admin', username=current_user.username))
     return render_template('createCourse.html', title='Create Course', form=form,
         lessonsInCourse=lessonGroups['lessonsInCourse'], 
         lessonsUserCreated=lessonGroups['lessonsUserCreated'], 
@@ -284,7 +286,7 @@ def deleteCourse(courseId):
     db.session.delete(course)
     db.session.commit()
     flash("Course '{}' successfully deleted.".format(course.name))
-    return redirect(url_for('index'))
+    return redirect(url_for('admin', username=current_user.username))
 
 @app.route('/displayImg/<filename>')
 def displayImg(filename):

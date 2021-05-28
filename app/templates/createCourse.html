@@ -2,7 +2,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="/static/editCourse.css">
-    <h1>Create Course</h1>
+    <h3>Create Course</h3>
     <form action="" method="post" enctype = "multipart/form-data">
         {{ form.hidden_tag() }}
         <p>
@@ -31,32 +31,36 @@
         </p>    
         <p>{{ form.submit() }}</p>
     </form>
-    Lessons User Created:
-    <div class="container">
-        {% for lesson in lessonsUserCreated %}
-            <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
-                Lesson Name: {{ lesson.name }} </div>
-        {% endfor %}
+    <div class="infoRow">
+        <div>
+            <p>Lessons User Created:</p>
+            <div class="container">
+                {% for lesson in lessonsUserCreated %}
+                    <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
+                        Lesson Name: {{ lesson.name }} </div>
+                {% endfor %}
+            </div>
+            Lessons Others Created:
+            <div class="container">
+                {% for lesson in lessonsOthersCreated %}
+                    <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
+                        Lesson Name: {{ lesson.name }} </div>
+                {% endfor %}
+            </div>    
+        </div>
+        <div>&nbsp;&nbsp;&nbsp;</div>
+        <div>
+            <p>Lessons in Course:</p>
+            <div class="container" id="LessonsInCourse">
+                {% for lesson in lessonsInCourse %}
+                    <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
+                        Lesson Name: {{ lesson.name }} </div>
+                {% endfor %}
+            </div>    
+        </div>
+    
     </div>
-
-    Lessons Others Created:
-
-    <div class="container">
-        {% for lesson in lessonsOthersCreated %}
-            <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
-                Lesson Name: {{ lesson.name }} </div>
-        {% endfor %}
-    </div>
-
-    <p>Lessons in Course:</p>
-
-    <div class="container" id="LessonsInCourse">
-        {% for lesson in lessonsInCourse %}
-            <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
-                Lesson Name: {{ lesson.name }} </div>
-        {% endfor %}
-    </div>
-
+    
     {% block javascript %}
         <script src="/static/editCourse.js"></script>
     {% endblock %}

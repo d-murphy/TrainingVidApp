@@ -12,7 +12,7 @@ body {
     }
   }
 
-.nav, .infoRow {
+.nav, .infoRow, .imageRow {
     display: flex;
     justify-content: space-between;
 }
@@ -57,9 +57,9 @@ a:visited {
     transition: opacity 500ms 3s;
 }
 
-.imageRow {
-    display: flex;
-    justify-content: space-between;
+.fadeout {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .itemDisplay {
@@ -116,10 +116,6 @@ a:visited {
     align-items: center;
 }
 
-.fadeout {
-    opacity: 0;
-    pointer-events: none;
-}
 
 .hideControls {
     visibility: hidden;
@@ -166,3 +162,12 @@ a:visited {
     opacity: 0.6;
     pointer-events: none;
   }
+
+.growFlexItem {
+    flex: 2 1 auto;
+}
+
+input, textarea {
+    width: 100%;
+  }
+

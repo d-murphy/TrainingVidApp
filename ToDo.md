@@ -1,9 +1,8 @@
 # Must Do List
 
-* show courses complete on profile page (with date!?)
 * log text is stretching panel on homepage
-* css for admin pages and Profile page
-* add scroll bar to divs in edit course.  
+* moment.js not working on Profile page
+* flash messages aren't fading anymore
 
 * Add a unit test
 * check if twice completed lessons creates an issue
@@ -11,12 +10,14 @@
 * background job?
 
 # May Do
+* improve form css
 * add password for admin access
 * add email password reset
 * drag and drop prevent courses you created from being dropped in courses others created
 * add text indexing to descriptions?
 * add full text search to 1. lesson selection in course edit 2. lesson/course catalog
 * css for mobile
+* add scroll bar to divs in edit course.  
 
 
 Completed: 
@@ -42,6 +43,8 @@ Completed:
 * fade out flash and relocate
 * css for lesson / course pages
 * record course completions and move completed from enrolled list
+* show courses complete on profile page (required association table in many to many relationship)
+* css for admin pages and Profile page
 
 
 

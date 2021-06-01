@@ -2,7 +2,6 @@
 
 * log text is stretching panel on homepage
 * moment.js not working on Profile page
-* flash messages aren't fading anymore
 
 * Add a unit test
 * check if twice completed lessons creates an issue
@@ -18,6 +17,7 @@
 * add full text search to 1. lesson selection in course edit 2. lesson/course catalog
 * css for mobile
 * add scroll bar to divs in edit course.  
+* add a confirm delete route
 
 
 Completed: 

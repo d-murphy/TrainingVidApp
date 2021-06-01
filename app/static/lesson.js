@@ -29,7 +29,9 @@ function stopMedia() {
     media.currentTime = 0;
     play.setAttribute('data-icon','P');
     document.querySelector('.button').classList.remove('disabled');
+    document.querySelector('.button').classList.add('enabled');
     document.querySelector('.disabled-wrapper').classList.remove('disabled-wrapper');
+
   }
 
   function setTime() {

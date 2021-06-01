@@ -39,13 +39,6 @@ class usersCourseCompleteDate(db.Model):
         self.dateCompleted = datetime.utcnow()
 
 
-# usersCourseCompleteAssociation = db.Table('usersCourseCompleteAssociation', db.Model.metadata,
-#     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-#     db.Column('course_id', db.Integer, db.ForeignKey('course.id')), 
-#     db.Column('date_completed', db.DateTime, index=True, default=datetime.utcnow)
-# )
-
-
 class User(UserMixin, db.Model):
 
     def set_password(self, password):
@@ -57,8 +50,6 @@ class User(UserMixin, db.Model):
     def completeLesson(self, lesson):
         self.lessonsComplete.append(lesson)
         
-    # def completeCourse(self, course):
-    #     self.coursesComplete.append(course)
     def completeCourse(self, course):
         self.usersCourseCompleteDate.append(usersCourseCompleteDate(user=self, course=course))
     
@@ -72,6 +63,18 @@ class User(UserMixin, db.Model):
                 usersCourseCompleteDate.user_id == self.id
             )
         return usersCompletedCourses
+
+    def getUsersEnrolledCoursesCt(self):
+        return(len(self.coursesEnrolled))
+
+    def to_dict(self):
+        data = {
+            'id': self.id, 
+            'username': self.username,
+            'coursesComplete': self.getUsersCompletedCourses().count(),
+            'coursesEnrolled': self.getUsersEnrolledCoursesCt(),
+        }
+        return data
         
     def __repr__(self):
         return '<User {}>'.format(self.username) 
@@ -87,7 +90,6 @@ class User(UserMixin, db.Model):
     coursesCreated = db.relationship('Course', backref='author', lazy='dynamic')
     coursesEnrolled = db.relationship('Course', secondary=usersCoursesAssociation, backref="courseStudents")
     lessonsComplete = db.relationship('Lesson', secondary=usersLessonCompleteAssociation, backref="lessonStudents")
-    # coursesComplete = db.relationship('Course', secondary=usersCourseCompleteAssociation, backref="courseStudentsComplete")
     coursesComplete = db.relationship('Course', secondary='usersCourseCompleteDate', viewonly=True)
 
 

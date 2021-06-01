@@ -12,19 +12,19 @@
         </div>
         <br/><br/>
         <div>
-            <p>Created Courses: </p>
+            <p><b>Created Courses:</b></p>
             {% for course in user.coursesCreated %}
                 <div class="infoRow">
                     <div class="growFlexItem">{{ course.name }}</div>
-                    <div><a href="/editCourse/{{course.id}}">Edit Course</a></div>&nbsp;&nbsp;
+                    <div class="editCourseCol"><a href="/editCourse/{{course.id}}">Edit Course</a></div>
                     <div><a href='/deleteCourse/{{ course.id }}'>Delete Course</a></div>
                 </div>
             {% endfor %}
-            <p>Created Lessons: </p>
+            <p><b>Created Lessons:</b></p>
             {% for lesson in user.lessonsCreated %}
                 <div class="infoRow">
                     <div class="growFlexItem">{{ lesson.name }}</div>
-                    <div><a href="/editLesson/{{lesson.id}}">Edit Lesson</a></div>&nbsp;&nbsp;
+                    <div class="editCourseCol"><a href="/editLesson/{{lesson.id}}">Edit Lesson</a></div>
                     <div><a onclick="confirm()" href="/deleteLesson/{{ lesson.id }}">Delete Course</a></div>
                 </div>
             {% endfor %}

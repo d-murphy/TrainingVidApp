@@ -32,9 +32,9 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
-            <p>{{ form.adminPrivilege() }} {{ form.adminPrivilege.label }}</p>
-        </p>
+        <div class="adminPrivInput">
+            {{ form.adminPrivilege.label }} {{ form.adminPrivilege(class_="adminInputCheck") }}
+        </div>
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}

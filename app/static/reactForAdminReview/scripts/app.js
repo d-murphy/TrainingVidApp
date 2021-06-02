@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom"
-import HelloWorld from "./HelloWorld"
+import AppContainer from "./AppContainer";
 
-ReactDOM.render(<HelloWorld />,
+ReactDOM.render(<AppContainer />,
     document.getElementById("react-root"))
     

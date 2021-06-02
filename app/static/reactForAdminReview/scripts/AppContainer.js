@@ -1,7 +1,7 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-import moment from 'moment'
+import {getDateCounts, getCourseCounts, getUserStatus} from './utils.js'
 
 const AppContainer = function (){
     const [dailyTotals, setDailyTotals] = useState([])
@@ -11,37 +11,27 @@ const AppContainer = function (){
     useEffect(() => {
         axios.get('/api/completions/')
         .then(response => {
-            let dateCounts = response.data.map(el => {
-                let displayDate = moment(el.completion_date).format("MM/DD/YY")
-                let dayCount = moment(el.completion_date).format("DDD")
-                let dayCountYr = moment(el.completion_date).format("YYYY")
-                return {
-                    'displayDate': displayDate,
-                    'dayCount': dayCount,
-                    'dayCountYr': dayCountYr
-                }
-            }).reduce((accumulator, el) => {
-                if(!accumulator[el.displayDate]){
-                    accumulator[el.displayDate] = {
-                        "completionCount" : 1,
-                        "displayDate": el.displayDate,
-                        "dayCount" : el.dayCount,
-                        "dayCountYr": el.dayCount
-                    } 
-                } else {
-                    accumulator[el.displayDate].completionCount += 1
-                }
-                return accumulator;
-            },{})
+            let dateCounts = getDateCounts(response.data);
+            setDailyTotals(dateCounts)
 
-            const dateCountsArr = Object.values(dateCounts);
-            setDailyTotals(dateCountsArr)
-            console.log(dateCountsArr)
+            let courseCts = getCourseCounts(response.data);
+            setCourseTotals(courseCts)
         })
         .catch(error => {
             console.log(error)
         })
-      }, []);
+
+        axios.get('/api/users/')
+        .then(response => {
+            let userStatus = getUserStatus(response.data);
+            setStatusTotals(userStatus)
+            console.log(userStatus)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
+    }, []);
 
 
     return (

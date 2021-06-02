@@ -1,15 +1,10 @@
 # Must Do List
 
-* log text is stretching panel on homepage
-* moment.js not working on Profile page
-
-* Add a unit test
-* check if twice completed lessons creates an issue
 * creating an api for a reporting suite?  user report?
-* background job?
 
 # May Do
 * improve form css
+* moment.js not working on Profile page
 * add password for admin access
 * add email password reset
 * drag and drop prevent courses you created from being dropped in courses others created
@@ -18,7 +13,6 @@
 * css for mobile
 * add scroll bar to divs in edit course.  
 * add a confirm delete route
-
 
 Completed: 
 * Complete login page
@@ -46,8 +40,6 @@ Completed:
 * show courses complete on profile page (required association table in many to many relationship)
 * css for admin pages and Profile page
 
-
-
 Roadblocks encountered / Lessons Learned: 
 * db.session.add(lesson) was erroring while sending a user object rather than Id
 * Messed with query / joins for too long when data was available columns in main tables (so far at least)
@@ -56,9 +48,7 @@ Roadblocks encountered / Lessons Learned:
 * use of continue in for loop to prevent extra layer of nesting from (Josh)
 * use uuid4 to create unique IDs for the image (from Josh); decided not to labels images with course id which would require two db.session.commits
 * spent a lot of time trying to connect lessons within a course.  My initial solution might have been failing because I wasn't returning my redirect.  Final outcome is cleaner though.  
-
-
-
+* encountered a bug getting [react to build](https://github.com/babel/babel/issues/8599) and location for [.babelrc](https://stackoverflow.com/questions/35391279/where-is-the-location-of-babelrc-file).  
 
 
 Videos pulled from: 

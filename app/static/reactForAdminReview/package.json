@@ -1,0 +1,39 @@
+{
+  "name": "training-video-app-admin-review",
+  "version": "1.0.0",
+  "description": "A data dashboard for admin's of the training video app.  The dashboard shows info on user progress.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production --config webpack.config.js",
+    "dev-build": "webpack --progress -d --config webpack.config.js",
+    "watch": "webpack --progress -d --config webpack.config.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d-murphy/trainingVidApp.git"
+  },
+  "author": "Dan Murphy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/d-murphy/trainingVidApp/issues"
+  },
+  "homepage": "https://github.com/d-murphy/trainingVidApp#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-react": "^7.13.13",
+    "babel-loader": "^8.2.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0"
+  },
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}

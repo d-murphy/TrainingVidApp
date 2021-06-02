@@ -78,9 +78,16 @@ def user(username):
 
 @app.route('/admin/<username>')
 @login_required
+@admin_only
 def admin(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('admin.html', user=user)
+
+@app.route('/adminDashboard')
+@login_required
+@admin_only
+def adminDashboard():
+    return render_template('adminDash.html')
 
 
 @app.route('/deleteUser/<username>')

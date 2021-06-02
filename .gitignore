@@ -128,3 +128,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# React build
+**/static/reactForAdminReview/node_modules

@@ -188,3 +188,41 @@ input, textarea {
 .adminInputCheck {
     flex: 0 1 50px;
 }
+
+/* For the Admin Dashboard */
+
+#react-root {
+    width: 100%;
+}
+
+.dashboardFirstRow {
+    display: flex;
+    flex-direction: row;
+    padding-top: 25px;
+}
+
+.HorizBar {
+    flex: 2 1 500px;
+}
+
+#StatusCountChartMouseover, 
+#CourseCountChartMouseover {
+    position: absolute;
+    text-align: left;
+    width: 140px;
+    height: auto;
+    padding: 10px;
+    font-size: small;
+    line-height: 1.1em;
+    background-color: white;
+    border-style: solid;
+    opacity: .9;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,.4);
+    pointer-events: none; ;
+  }
+
+  #StatusCountChartMouseover.hidden, 
+  #CourseCountChartMouseover.hidden {
+    display: none;
+  }

@@ -1,6 +1,7 @@
 # Must Do List
 
-* creating an api for a reporting suite?  user report?
+* redo 3rd chart as a heatmap timeline
+* deploy
 
 # May Do
 * improve form css
@@ -39,6 +40,8 @@ Completed:
 * record course completions and move completed from enrolled list
 * show courses complete on profile page (required association table in many to many relationship)
 * css for admin pages and Profile page
+* create api endpoints to feed an admin dashboard built with react
+
 
 Roadblocks encountered / Lessons Learned: 
 * db.session.add(lesson) was erroring while sending a user object rather than Id

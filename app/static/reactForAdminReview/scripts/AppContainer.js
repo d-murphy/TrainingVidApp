@@ -2,6 +2,8 @@ import React from 'react'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import {getDateCounts, getCourseCounts, getUserStatus} from './utils.js'
+import HorizBar from './HorizBar'
+import VertBar from './VertBar'
 
 const AppContainer = function (){
     const [dailyTotals, setDailyTotals] = useState([])
@@ -25,7 +27,6 @@ const AppContainer = function (){
         .then(response => {
             let userStatus = getUserStatus(response.data);
             setStatusTotals(userStatus)
-            console.log(userStatus)
         })
         .catch(error => {
             console.log(error)
@@ -33,9 +34,22 @@ const AppContainer = function (){
 
     }, []);
 
-
     return (
-        <h3>{dailyTotals.length} is the state length</h3>
+        <div className="dashboardWrapper">
+            <div className="dashboardFirstRow">
+                <HorizBar countData={statusTotals} countColName="userCount" 
+                        labelColName="status" cssClassName="StatusCount"
+                        chartTitle="User Status Count" />
+                <HorizBar countData={courseTotals} countColName="completionCount" 
+                        labelColName="coursename" cssClassName="CourseCount"
+                        chartTitle="Course Completion Count" />
+            </div>
+            <div className="dashboardSecondRow">
+                <VertBar countData={dailyTotals} countColName="completionCount"
+                         labelColName="displayDate" cssClassName="DayCount"
+                         chartTitle="Daily Completion Count" />
+            </div>
+        </div>
     ) 
 }
 

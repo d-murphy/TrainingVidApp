@@ -84,8 +84,6 @@ def admin(username):
     return render_template('admin.html', user=user)
 
 @app.route('/adminDashboard')
-@login_required
-@admin_only
 def adminDashboard():
     return render_template('adminDash.html')
 

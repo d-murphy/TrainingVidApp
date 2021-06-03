@@ -17,6 +17,11 @@ const config = {
                 use: 'babel-loader'     
             }        
         ]
-    }
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+          "React": "react",
+        }),
+      ]
 };
 module.exports = config;

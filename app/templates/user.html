@@ -2,23 +2,11 @@
 
 {% block content %}
 
-    <h3>User: {{ user.username }}</h3>
-    <div class="infoRow">
-        <p>
-            <div>Courses Complete: {{ coursesComplete }}</div>
-            <div>&nbsp;&nbsp;&nbsp;</div>    
-            <div>Lessons Complete: {{ lessonsComplete }}</div>
-        </p>
-    </div>
-    <h3>Completed Courses: </h3>
-    {% if not usersCoursesCompleted %}
-        <p>No completed courses</p>
-    {% else %}
-        {% for course in usersCoursesCompleted %}
-        <p>
-            {{ course.name }}
-            <!-- {{ course.name }} completed on {{ moment(course.usersCourseCompleteDate[0].dateCompleted).format('LLL')  }}  -->
-        </p>
-        {% endfor %}
-    {% endif %}
+        {% block app_content %}
+  
+        <div id="react-root"></div>
+          
+        <script src="{{ url_for('static', filename='reactForAdminReview/dist/bundle.js') }}"></script>
+        {% endblock %}
+
 {% endblock %}

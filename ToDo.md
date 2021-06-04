@@ -1,9 +1,8 @@
 # Must Do List
 
-* css tracks: 
-** profile page
-** admin page
-
+* build a profile page with github style history
+* add history to admin dashboard
+** same react build, but use window.location.href to find which to display.  
 * deploy
 
 # May Do

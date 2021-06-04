@@ -1,37 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <h3>Admin Controls for {{ user.username }}</h1>
-        <div class="infoRow">
-            <div>
-                <a href="{{ url_for('createLesson')}}">Create Lesson</a> &nbsp;&nbsp;
+    <div class="section-header">
+        <h3>Admin Controls for {{ user.username }}</h3>
+    </div>
+    <br/>
+    <div class="infoRow">
+        <a href="{{ url_for('createLesson')}}" class="link-no-decoration">
+            <div class="button">
+                Create Lesson
             </div>
-            <div>
-                |&nbsp;&nbsp;<a href="{{ url_for('createCourse')}}">Create Course</a>&nbsp;&nbsp;
+        </a>
+        <div>&nbsp;&nbsp;</div>
+        <a href="{{ url_for('createCourse')}}" class="link-no-decoration">
+            <div class="button">
+                Create Course
             </div>
-            <div>
-                |&nbsp;&nbsp;<a href="{{ url_for('adminDashboard')}}">User Statistics</a> 
+        </a>
+        <div>&nbsp;&nbsp;</div>
+        <a href="{{ url_for('adminDashboard')}}" class="link-no-decoration">
+            <div class="button">
+                User Statistics
             </div>
-        </div>
-        <br/><br/>
-        <div>
-            <p><b>Created Courses:</b></p>
-            {% for course in user.coursesCreated %}
-                <div class="infoRow">
-                    <div class="growFlexItem">{{ course.name }}</div>
-                    <div class="editCourseCol"><a href="/editCourse/{{course.id}}">Edit Course</a></div>
-                    <div><a href='/deleteCourse/{{ course.id }}'>Delete Course</a></div>
-                </div>
-            {% endfor %}
-            <p><b>Created Lessons:</b></p>
-            {% for lesson in user.lessonsCreated %}
-                <div class="infoRow">
-                    <div class="growFlexItem">{{ lesson.name }}</div>
-                    <div class="editCourseCol"><a href="/editLesson/{{lesson.id}}">Edit Lesson</a></div>
-                    <div><a onclick="confirm()" href="/deleteLesson/{{ lesson.id }}">Delete Lesson</a></div>
-                </div>
-            {% endfor %}
-        </div>
+        </a> 
+    </div>
+    <br/><br/>
+    <div>
+        <p><b>Created Courses:</b></p>
+        {% for course in user.coursesCreated %}
+            <div class="infoRow">
+                <div class="growFlexItem">{{ course.name }}</div>
+                <div class="editCourseCol"><a href="/editCourse/{{course.id}}">Edit Course</a></div>
+                <div><a href='/deleteCourse/{{ course.id }}'>Delete Course</a></div>
+            </div>
+        {% endfor %}
+        <p><b>Created Lessons:</b></p>
+        {% for lesson in user.lessonsCreated %}
+            <div class="infoRow">
+                <div class="growFlexItem">{{ lesson.name }}</div>
+                <div class="editCourseCol"><a href="/editLesson/{{lesson.id}}">Edit Lesson</a></div>
+                <div><a onclick="confirm()" href="/deleteLesson/{{ lesson.id }}">Delete Lesson</a></div>
+            </div>
+        {% endfor %}
+    </div>
 
 
 {% endblock %}

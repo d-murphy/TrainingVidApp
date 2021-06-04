@@ -4,11 +4,18 @@
     <h3>{{ course.name }}</h3>
     <p>{{ course.description }}</p>
     {% if userEnrolled %}
-        <a href="{{ url_for('lessonInCourse', lessonId=course.lessonsIncluded[0].id, courseId=course.id ) }}">
-            Start the Course!
+        <a href="{{ url_for('lessonInCourse', lessonId=course.lessonsIncluded[0].id, courseId=course.id ) }}"
+            class='link-no-decoration'>
+            <div class="start-or-enroll-button">
+                Start the Course!
+            </div>
         </a>
     {% else %}
-        <a href="{{ url_for('enrollInCourse', courseId=course.id) }}">Enroll in course</a>
+        <a href="{{ url_for('enrollInCourse', courseId=course.id) }}" class='link-no-decoration'>
+            <div class="start-or-enroll-button">
+                Enroll in course
+            </div>
+        </a>
     {% endif %}
     <br/>
     <img class="course-image" src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="" />

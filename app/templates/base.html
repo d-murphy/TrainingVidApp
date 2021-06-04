@@ -1,14 +1,16 @@
 <html>
     <head>
-      <title>Video Training App</title>
+      <title>Talent Check</title>
       <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
       <div class="nav">
         <div class="navLeft">
           <a href="{{ url_for('index') }}">
-            <img src="{{ url_for('displayImg',filename='EmployeeTrainingAppLogo.png') }}"
-                 alt="Video Training App Logo and Link to Home Page" />
+            <div class="LogoBorder">
+              <div class="LogoFill">talent</div>
+              <div class="LogoNoFill">check</div>  
+            </div>
           </a>
         </div>
         <div class="navRight">
@@ -25,15 +27,30 @@
           </div>
           <div class="navRightBottom">
               {% if current_user.is_anonymous %}
-              <a href="{{ url_for('login') }}">Login</a>
+                  <a href="{{ url_for('login') }}">                
+                    <div class="login">Login</div>
+                  </a>
               {% else %}
-                {% if current_user.adminPrivilege %}
-                  <a href="{{ url_for('admin', username=current_user.username) }}">Admin Control</a>
-                  &nbsp;&nbsp;&nbsp;
-                {% endif %}
-                <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-                &nbsp;&nbsp;&nbsp;
-                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="/">
+                  <div class="browse-courses-button">
+                    Browse
+                    <div class="browse-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" data-supported-dps="20x20" fill="currentColor" width="18" height="18" focusable="false">
+                        <path d="M4 3.67c.73 0 1.33.6 1.33 1.33S4.73 6.33 4 6.33 2.67 5.73 2.67 5 3.27 3.67 4 3.67zM8 4h13v2H8V4zm-4 6.67c.73 0 1.33.6 1.33 1.33s-.6 1.33-1.33 1.33-1.33-.6-1.33-1.33.6-1.33 1.33-1.33zM8 11h13v2H8v-2zm-4 6.67c.73 0 1.33.6 1.33 1.33s-.6 1.33-1.33 1.33-1.33-.6-1.33-1.33.6-1.33 1.33-1.33zM8 18h13v2H8v-2z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+                <div class="profile-dropdown">
+                  <button class="profile-dropbtn">Me <div class="profile-arrow">&#9660;</div></button>
+                  <div class="profile-dropdown-content">
+                    <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+                    {% if current_user.adminPrivilege %}
+                    <a href="{{ url_for('admin', username=current_user.username) }}">Admin Control</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                  </div>
+                </div>
               {% endif %}  
           </div>
         </div>
@@ -42,7 +59,7 @@
         {% block content %}{% endblock %}
       </div>
       <script src="/static/base.js"></script>
-      <script src="https://unpkg.com/moment"></script>
+      <!-- <script src="https://unpkg.com/moment"></script> -->
     </body>
 </html>
 

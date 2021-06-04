@@ -11,4 +11,4 @@ Project objectives:
 ### Attributions: 
 
 * Videos from pexels.com
-* Logo from freelogodesign.com
+* [Homepage image](https://pixabay.com/vectors/man-employee-computer-monitor-5800290/)

@@ -1,9 +1,14 @@
 # Must Do List
 
-* redo 3rd chart as a heatmap timeline
+* css tracks: 
+** profile page
+** admin page
+
 * deploy
 
 # May Do
+* might want to refresh profile page, show images
+* should the images be animating, scolling?
 * improve form css
 * moment.js not working on Profile page
 * add password for admin access
@@ -41,6 +46,10 @@ Completed:
 * show courses complete on profile page (required association table in many to many relationship)
 * css for admin pages and Profile page
 * create api endpoints to feed an admin dashboard built with react
+* fresh logo and name
+* browse link with icon
+* Profile drop down to show profile, admin, logot
+* css tracks:  homepage to user login, enroll in course to complete, create and edit lessons and courses
 
 
 Roadblocks encountered / Lessons Learned: 

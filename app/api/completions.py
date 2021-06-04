@@ -18,8 +18,7 @@ def get_completions():
                 'course_id': completion[0].course_id,
                 'completion_date': completion[0].dateCompleted,
                 'username': completion[2].username,
-                'coursename': completion[1].name,
-                'courseDesc': completion[1].description
+                'coursename': completion[1].name
                 }
             )
     return jsonify(returnArr)

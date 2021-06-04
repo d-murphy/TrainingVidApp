@@ -12,7 +12,7 @@ const HorizBar = ({countData, countColName, labelColName, cssClassName, chartTit
 
     const {width: widthRs, ref} = useResizeDetector();
 
-    const HEIGHT = 250
+    const HEIGHT = 375
     const MARGIN = {top: 25, right:20, bottom: 30, left: 130}
     const INNERPAD = .1
     const OUTERPAD = .5

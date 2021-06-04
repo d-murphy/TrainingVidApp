@@ -2,47 +2,55 @@
 
 {% block content %}
     <h1>Edit Lesson</h1>
-    <form action="" method="post" enctype = "multipart/form-data">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name(size=32) }}<br>
-            {% for error in form.name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.description.label }}<br>
-            {{ form.description(size=129) }}<br>
-            {% for error in form.description.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.duration.label }}<br>
-            {{ form.duration(size=32) }}<br>
-            {% for error in form.duration.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            <label for="imgFile">
-                Select Cover Image:
-                <input type=file name='imgFile'>
-            </label>
-        </p>
-        <p>
-            <label for="vidFile">
-                Select Video: 
-                <input type=file name='vidFile'>
-            </label>
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
-    <img src="{{ url_for('displayImg',filename=lesson.imgFileLoc) }}" alt="" />
-    <video width="320" height="240" controls>
-        <source src="{{ url_for('displayVid',filename=lesson.vidFileLoc) }}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <div class="infoRow">
+        <div class="leftContent">
+            <form action="" method="post" enctype = "multipart/form-data">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.name.label }}<br>
+                    {{ form.name(size=32) }}<br>
+                    {% for error in form.name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.description.label }}<br>
+                    {{ form.description(size=129) }}<br>
+                    {% for error in form.description.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.duration.label }}<br>
+                    {{ form.duration(size=32) }}<br>
+                    {% for error in form.duration.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    <label for="vidFile">
+                        Select Video (only if updating): 
+                        <input type=file name='vidFile' >
+                    </label>
+                </p>
+                <p>
+                    <label for="imgFile">
+                        Select Cover Image (only if updating):
+                        <input type=file name='imgFile' >
+                    </label>
+                </p>
+                <p>{{ form.submit(class="signon") }}</p>
+            </form>        
+        </div>
+        <div class="rightContent col-flex">
+            <h3>Current Video</h3>
+            <video width="320" height="240" controls>
+                <source src="{{ url_for('displayVid',filename=lesson.vidFileLoc) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <h3>Current Image</h3>
+            <img src="{{ url_for('displayImg',filename=lesson.imgFileLoc) }}" alt="" width="320" />
+        </div>
+    </div>
 
 {% endblock %}

@@ -20,8 +20,10 @@
                 {% endfor %}
             </p>
             
-            <p>{{ form.submit() }}</p>
+            <p>{{ form.submit(class="signon") }}</p>
         </form>
-        <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
+        <div class="new-user-question">
+            <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
+        </div>
     </div>
 {% endblock %}

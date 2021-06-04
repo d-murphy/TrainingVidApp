@@ -18,7 +18,7 @@ def index():
     courses = db.session.query(Course).all()
     if current_user.is_authenticated:
         user = db.session.query(User).filter_by(id=current_user.id).one_or_none()
-        userCourses = user.coursesEnrolled[0:3]
+        userCourses = user.coursesEnrolled
         coursesToShow = []
         for course in courses:
             if course in user.coursesEnrolled: 

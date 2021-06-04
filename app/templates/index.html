@@ -2,18 +2,28 @@
 
 {% block content %}
     {% if not current_user.is_authenticated %}
-        <h3>Welcome</h3>
-        <p>You'll find a variety of training videos on this app.&nbsp;&nbsp;You'll want to login to take any of the trainings.</p>
-        <p>Here's a sampling of available courses.</p>
+        <div class="welcome-first-row">
+            <div class="welcome-text">
+                <h2>Welcome to Talent Check</h2>
+                <p>Talent Check is a video training app to share with your employees.  Lesson completion is tracked and custom video controls ensure users remain engaged.</p> 
+                <p>You'll want to login to take any of the trainings.</p>
+                <p>Scroll to see available courses.</p>    
+            </div>
+            <div class="welcome-image">
+                <img src="{{ url_for('displayImg',filename='man-5800290.svg') }}" alt="" />
+            </div>    
+        </div>
     {% else %}
-        <h3>Welcome, {{ current_user.username }} </h3>
         {% if userCourses %}
-            <p>Here are the courses you're currently enrolled in:</p>
+            <div class="section-header">
+                <p>Here are the courses you're currently enrolled in:</p>
+            </div>
             <div class="imageRow">
                 {% for course in userCourses %}
-                <a href="{{ url_for('course',courseId=course.id) }}" class="disabled-link">
+                <a href="{{ url_for('course',courseId=course.id) }}" class="link-around-item-display">
                     <div class="itemDisplay">
                         <img src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="course image" />
+                        <div class="itemDisplayClass">COURSE</div>
                         <div class="itemDisplayName">{{ course.name }}</div>
                         <div class="itemDisplayDesc">{{ course.description }}</div>
                     </div>
@@ -23,20 +33,25 @@
         {% endif %}
 
         {% if userCourses and courses %}
-        <p>Other courses in the catalog: </p>
+        <div class="section-header">
+            <p>Other courses in the catalog: </p>
+        </div>
         {% elif courses %}
-        <p>Consider one of the courses in the catalog: </p>
+        <div class="section-header">
+            <p>Consider one of the courses in the catalog: </p>
+        </div>
         {% endif %}
     {% endif %}
         <div class="imageRow">
             {% for course in courses %}
-            <a href="{{ url_for('course',courseId=course.id) }}" class="disabled-link">
+            <a href="{{ url_for('course',courseId=course.id) }}" class="link-around-item-display">
                 <div class="itemDisplay">
                     <img src="{{ url_for('displayImg',filename=course.imgFileLoc) }}" alt="course image" />
+                    <div class="itemDisplayClass">COURSE</div>
                     <div class="itemDisplayName">{{ course.name }}</div>
                     <div class="itemDisplayDesc">{{ course.description }}</div>
                 </div>
             </a>
-            {% endfor %}    
+            {% endfor %} 
         </div>
 {% endblock %}

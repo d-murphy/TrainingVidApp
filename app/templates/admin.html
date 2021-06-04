@@ -7,7 +7,10 @@
                 <a href="{{ url_for('createLesson')}}">Create Lesson</a> &nbsp;&nbsp;
             </div>
             <div>
-                |&nbsp;&nbsp;<a href="{{ url_for('createCourse')}}">Create Course</a> 
+                |&nbsp;&nbsp;<a href="{{ url_for('createCourse')}}">Create Course</a>&nbsp;&nbsp;
+            </div>
+            <div>
+                |&nbsp;&nbsp;<a href="{{ url_for('adminDashboard')}}">User Statistics</a> 
             </div>
         </div>
         <br/><br/>
@@ -25,7 +28,7 @@
                 <div class="infoRow">
                     <div class="growFlexItem">{{ lesson.name }}</div>
                     <div class="editCourseCol"><a href="/editLesson/{{lesson.id}}">Edit Lesson</a></div>
-                    <div><a onclick="confirm()" href="/deleteLesson/{{ lesson.id }}">Delete Course</a></div>
+                    <div><a onclick="confirm()" href="/deleteLesson/{{ lesson.id }}">Delete Lesson</a></div>
                 </div>
             {% endfor %}
         </div>

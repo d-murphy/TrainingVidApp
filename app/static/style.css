@@ -1,26 +1,72 @@
+html {
+    overflow-y: scroll;
+  }
+
 body {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     display: flex;
     flex-direction: column;
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
+    background-color: ghostwhite;
 }
+
 
 @media only screen and (max-width: 650px) {
     body {
-        width: 550px;
+        width: 500px;
     }
   }
 
-.nav, .infoRow, .imageRow {
+.nav, .infoRow {
     display: flex;
     justify-content: space-between;
 }
+
+
 .nav {
-    font-size: 18px;
-    border-bottom: solid;
-    min-height: 117px;
+    font-size: large;
+    min-height: 140px;
     padding-bottom:10px;
+}
+
+.nav a, .nav a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+
+.navLeft {
+    display: flex;
+}
+
+.navLeft > a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+}
+
+.LogoFill {
+    color: white;
+    background-color: #2977c9;
+    padding: 10px 30px 10px 30px;
+    font-weight: bold;
+}
+
+.LogoNoFill {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #2977c9;
+    display: flex;
+    justify-content: center;
+}
+
+.LogoBorder{
+    border: solid #2977c9;
+    border-radius: 3px;
+
 }
 
 .navRight {
@@ -32,20 +78,9 @@ body {
     
 }
 
-a:link {
-  color: rgba(140,60,140);
+.navRightBottom {
+    display: flex;
 }
-  
-  /* visited link */
-a:visited {
-    color: rgba(140,60,140);
-}
-
-.leftContent, .rightContent {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
 
 .flashMessages {
     padding: 10px;
@@ -62,40 +97,165 @@ a:visited {
     pointer-events: none;
 }
 
+.login, .signon, .start-or-enroll-button, .button {
+    border: solid #2977c9;
+    border-radius: 30px;
+    padding: 10px 30px 10px 30px;
+    color: #2977c9;
+    transition: .25s;
+}
+
+.signon {
+    background-color: ghostwhite;
+}
+
+.login:hover, .signon:hover, .start-or-enroll-button:hover, .button:hover {
+    background-color: #e6f1ff;
+}
+
+.link-no-decoration {
+    text-decoration: none;
+}
+
+
+.browse-courses-button {
+    background-color: #2977c9; 
+    color: white;
+    padding: 16px 20px 16px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px 0px 0px 3px;
+    display: flex;
+}
+
+.browse-courses-button a {
+    color: white;
+}
+
+.browse-icon {
+    padding-left: 6px;
+}
+
+
+.profile-dropbtn {
+  background-color: #2977c9; 
+  color: white;
+  padding: 16px 16px 15px 16px;
+  border: none;
+  cursor: pointer;
+  font-size: large;
+  display: flex;
+  border-radius: 0px 3px 3px 0px;
+
+}
+
+.profile-arrow {
+    font-size: large;
+    padding-left: 10px;
+}
+
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-dropdown-content {
+  display: none;
+  position: absolute;
+  text-align: center;
+  background-color: ghostwhite; 
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0;
+}
+
+.profile-dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  display: block;
+}
+
+.profile-dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.profile-dropdown:hover .profile-dropdown-content {
+  display: block;
+}
+
+.profile-dropdown:hover .profile-dropbtn {
+  background-color: #1967b9;
+}
+
+.welcome-first-row {
+    display: flex;
+    background-color: #2977c9;
+    margin-bottom: 100px;
+}
+
+.welcome-text {
+    flex: 1 1 700px;
+    color: white;
+    padding: 20px 20px 100px 60px;
+}
+
+.welcome-image {
+    flex: 1 1 400px;
+}
+
+.welcome-image img {
+    width: 100%; height: auto;
+}
+
+.section-header {
+    margin-top: 60px;
+    background-color: #2977c9;
+    width: 100%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    border-radius: 3px;
+    font-size: large;
+}
+
+.imageRow {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-self: flex-start
+}
+
+.link-around-item-display {
+    flex: 0 1 366px;
+    text-decoration: none;
+}
+
+
 .itemDisplay {
-    flex: 1 1 auto;
     flex-direction: column;
     justify-content: flex-end;
     min-height: 283px;
-    padding: 5px;
-    border: solid rgba(200,200,200);
-    border-radius: 10px;
-    box-shadow: 3px 3px 5px rgba(120,120,120,.7);
-    margin: 5px;
+    margin: 15px;
+}
+
+.itemDisplay:hover > .itemDisplayName {
+    text-decoration: underline;
 }
 
 .itemDisplay > img {
-    width:310px;
-    height: 240px;
+    width: 100%; height: auto;
 }
 
 
-/* @media only screen and (max-width: 650px) {
-    .imageRow {
-        flex-direction: column;
-    }
-    .itemDisplay {
-        flex: 1 1 auto;        
-    }
-    .itemDisplay > img {
-        width: auto;
-        height: 240px;
-    }
-} */
 
+.itemDisplayClass{
+    font-size: medium;
+    color: darkgray;
+    padding-top: 5px;
+}
 
 .itemDisplayName {
-    font-size: large;
+    font-size: x-large;
     padding-top: 5px;
     padding-bottom: 5px;
     color: black;
@@ -105,16 +265,29 @@ a:visited {
     color: rgba(100,100,100)
 }
 
+.leftContent, .rightContent {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.rightContent {
+    display: flex;
+    align-items: center;
+}
+
+
+
 .disabled-link {
     text-decoration: none;
     color: black;
 }
 
-.mainContentWrapper {
+.mainContentWrapper, .col-flex {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 
 
 .hideControls {
@@ -134,24 +307,8 @@ a:visited {
     border-radius: 10px;
     margin: 25px;
     border: solid;
-    border-color: lightblue;
+    border-color: #2977c9;
     text-align: center;
-}
-
-.button {
-    background-color: thistle ; 
-    border: none;
-    border-radius: 5px;
-    color: black;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-.button:hover {
-    background-color: #c8afc8 
 }
 
 .disabled-wrapper {
@@ -172,8 +329,21 @@ a:visited {
     padding-right: 90px;
 }
 
+.col-flex {
+    background-color: white;
+    border-radius: 3px;
+    padding: 20px;
+    margin: 20px;
+    margin-left: 50px;
+}
+
 .editCourseCol {
     padding-right: 20px;
+}
+
+.new-user-question {
+    display: flex;
+    justify-content: center;
 }
 
 input, textarea {
@@ -188,6 +358,8 @@ input, textarea {
 .adminInputCheck {
     flex: 0 1 50px;
 }
+
+
 
 /* For the Admin Dashboard */
 

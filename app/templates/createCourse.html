@@ -2,37 +2,48 @@
 
 {% block content %}
 <link rel="stylesheet" href="/static/editCourse.css">
-    <h3>Create Course</h3>
-    <form action="" method="post" enctype = "multipart/form-data">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name(size=32) }}<br>
-            {% for error in form.name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.description.label }}<br>
-            {{ form.description(size=120) }}<br>
-            {% for error in form.description.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            <label for="imgFile">
-                Select Cover Image:
-                <input type=file name='imgFile'>
-            </label>
-        </p>
-        <p hidden>
-            {{ form.lessonsIncluded.label }}<br>
-            {{ form.lessonsIncluded(size=120) }}<br>
-        </p>    
-        <p>{{ form.submit() }}</p>
-    </form>
+    <h1>Create Course</h1>
     <div class="infoRow">
-        <div>
+        <div class="leftContent">
+            <form action="" method="post" enctype = "multipart/form-data">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.name.label }}<br>
+                    {{ form.name(size=32) }}<br>
+                    {% for error in form.name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.description.label }}<br>
+                    {{ form.description(size=120) }}<br>
+                    {% for error in form.description.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    <label for="imgFile">
+                        Select Cover Image:
+                        <input type=file name='imgFile' >
+                    </label>
+                </p>
+                <p hidden>
+                    {{ form.lessonsIncluded.label }}<br>
+                    {{ form.lessonsIncluded(size=120) }}<br>
+                </p>    
+                <p>{{ form.submit(class="signon") }}</p>
+            </form>  
+        </div>
+        <div class="rightContent col-flex">
+            <p>Lessons in Course:</p>
+            <p>(Drag files from the lists below to order the course lessons)</p>
+            <div class="container" id="LessonsInCourse">
+                {% for lesson in lessonsInCourse %}
+                    <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
+                        Lesson Name: {{ lesson.name }} </div>
+                {% endfor %}
+            </div>   
+            <br/> 
             <p>Lessons User Created:</p>
             <div class="container">
                 {% for lesson in lessonsUserCreated %}
@@ -40,7 +51,8 @@
                         Lesson Name: {{ lesson.name }} </div>
                 {% endfor %}
             </div>
-            Lessons Others Created:
+            <br/>
+            <p>Lessons Others Created:</p>
             <div class="container">
                 {% for lesson in lessonsOthersCreated %}
                     <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
@@ -48,19 +60,7 @@
                 {% endfor %}
             </div>    
         </div>
-        <div>&nbsp;&nbsp;&nbsp;</div>
-        <div>
-            <p>Lessons in Course:</p>
-            <div class="container" id="LessonsInCourse">
-                {% for lesson in lessonsInCourse %}
-                    <div class="draggable" draggable="true" id={{lesson.id}}>Lesson ID: {{ lesson.id }} ; 
-                        Lesson Name: {{ lesson.name }} </div>
-                {% endfor %}
-            </div>    
-        </div>
-    
-    </div>
-    
+    </div>    
     {% block javascript %}
         <script src="/static/editCourse.js"></script>
     {% endblock %}

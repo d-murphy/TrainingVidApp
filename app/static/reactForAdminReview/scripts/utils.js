@@ -1,31 +1,31 @@
 import moment from 'moment'
 
-const getDateCounts = function(completionsArray){
-    let dateCounts = completionsArray.map(el => {
-        let displayDate = moment(el.completion_date).format("MM/DD/YY")
-        let dayCount = moment(el.completion_date).format("DDD")
-        let dayCountYr = moment(el.completion_date).format("YYYY")
-        return {
-            'displayDate': displayDate,
-            'dayCount': dayCount,
-            'dayCountYr': dayCountYr
-        }
-    }).reduce((accumulator, el) => {
-        if(!accumulator[el.displayDate]){
-            accumulator[el.displayDate] = {
-                "completionCount" : 1,
-                "displayDate": el.displayDate,
-                "dayCount" : el.dayCount,
-                "dayCountYr": el.dayCount
-            } 
-        } else {
-            accumulator[el.displayDate].completionCount += 1
-        }
-        return accumulator;
-    },{})
-    const dateCountsArr = Object.values(dateCounts);
-    return dateCountsArr
-}
+// const getDateCounts = function(completionsArray){
+//     let dateCounts = completionsArray.map(el => {
+//         let displayDate = moment(el.completion_date).format("MM/DD/YY")
+//         let dayCount = moment(el.completion_date).format("DDD")
+//         let dayCountYr = moment(el.completion_date).format("YYYY")
+//         return {
+//             'displayDate': displayDate,
+//             'dayCount': dayCount,
+//             'dayCountYr': dayCountYr
+//         }
+//     }).reduce((accumulator, el) => {
+//         if(!accumulator[el.displayDate]){
+//             accumulator[el.displayDate] = {
+//                 "completionCount" : 1,
+//                 "displayDate": el.displayDate,
+//                 "dayCount" : el.dayCount,
+//                 "dayCountYr": el.dayCount
+//             } 
+//         } else {
+//             accumulator[el.displayDate].completionCount += 1
+//         }
+//         return accumulator;
+//     },{})
+//     const dateCountsArr = Object.values(dateCounts);
+//     return dateCountsArr
+// }
 
 const getCourseCounts = function(completionsArray){
     let courseCts = completionsArray.reduce((accumulator, el) => {
@@ -121,4 +121,33 @@ const getTimelineDataset = function (completionsArray) {
     return timelineDatasetArr
 }
 
-export {getDateCounts,getCourseCounts, getUserStatus, getTimelineDataset}
+const getMonthAxisLocations = () => {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    let currentDate = new Date()
+    let monthNamesOrdered = []
+    let monthNamesLocation = []
+    let oneDay = 1000 * 60 * 60 * 24;
+    let arrTo12 = [...Array(12).keys()]
+    arrTo12.forEach(el => {
+        let dayOneOfMonth = new Date(currentDate)
+        if(currentDate.getMonth()>=el) {
+            dayOneOfMonth.setMonth(dayOneOfMonth.getMonth() - el)
+        } else {
+            dayOneOfMonth.setFullYear(dayOneOfMonth.getFullYear() )
+            dayOneOfMonth.setMonth(dayOneOfMonth.getMonth() - el)
+        }
+        let dayOneOfMonthFromToday = Math.floor((currentDate - dayOneOfMonth)/oneDay)
+        let weekNumOfDayOneOfMonth = Math.floor( (dayOneOfMonthFromToday - currentDate.getDay() - 1)/7 ) + 2
+        monthNamesOrdered.push(monthNames[dayOneOfMonth.getMonth()])
+        monthNamesLocation.push(weekNumOfDayOneOfMonth)
+    });
+    return({
+        "monthNamesOrdered":monthNamesOrdered,
+        "monthNamesLocation":monthNamesLocation
+    })
+}
+
+
+export {getCourseCounts, getUserStatus, getTimelineDataset, getMonthAxisLocations}

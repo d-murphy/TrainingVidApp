@@ -7,9 +7,10 @@ import Timeline from './Timeline'
 
 const AppContainer = function (){
     const [callingUrl, setCallingUrlState] = useState("waitToTest")
-    const [dailyTotals, setDailyTotals] = useState([])
+    const [dailyCompletionTotals, setDailyCompletionTotals] = useState([])
     const [courseTotals, setCourseTotals] = useState([])
-    const [statusTotals, setStatusTotals] = useState([])
+    const [allUsersStatus, setAllUsersStatus] = useState([])
+    const [userDailyCompletionTotals, setuserDailyCompletionTotals] = useState([])
 
     useEffect(() => {
 
@@ -20,13 +21,18 @@ const AppContainer = function (){
 
         if (pageToShow === "adminDashboard") {
             setCallingUrlState("adminDashboard")
-        } else {
-            setCallingUrlState("userProfile")
-        }
-        axios.get('/api/completions/')
+            axios.get('/api/users/')
+            .then(response => {
+                let userStatus = getUserStatus(response.data);
+                setAllUsersStatus(userStatus)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            axios.get('/api/completions/')
             .then(response => {
                 let dateCounts = getTimelineDataset(response.data);
-                setDailyTotals(dateCounts)
+                setDailyCompletionTotals(dateCounts)
     
                 let courseCts = getCourseCounts(response.data);
                 setCourseTotals(courseCts)
@@ -35,12 +41,16 @@ const AppContainer = function (){
                 console.log(error)
             })
 
-        if (pageToShow === "adminDashboard") {    
-            axios.get('/api/users/')
+        } else {
+            setCallingUrlState("userProfile")
+            axios.get('/api/user/'+String(pageToShow))
             .then(response => {
-                let userStatus = getUserStatus(response.data);
-                setStatusTotals(userStatus)
+                let userCompletionTotals = getTimelineDataset(response.data)
+                console.log(userCompletionTotals)
+                setuserDailyCompletionTotals(userCompletionTotals)
+                console.log("set request complete")
             })
+            .then(console.log("get request finished"))
             .catch(error => {
                 console.log(error)
             })
@@ -53,13 +63,13 @@ const AppContainer = function (){
         return (
             <div className="dashboardWrapper">
                 <div className="dashboardSecondRow">
-                    <Timeline completionData={dailyTotals} countColName="completionCount" 
+                    <Timeline completionData={dailyCompletionTotals} countColName="completionCount" 
                                     xAxisColName="weeknum" yAxisColName="weekday" 
-                                    cssClassName="Timeline" chartTitle="Completion Timeline"
+                                    cssClassName="Timeline" chartTitle="Course Completion Timeline"
                                     labelColName="displayDate" /> 
                 </div>
                 <div className="dashboardFirstRow">
-                    <HorizBar countData={statusTotals} countColName="userCount" 
+                    <HorizBar countData={allUsersStatus} countColName="userCount" 
                             labelColName="status" cssClassName="StatusCount"
                             chartTitle="User Status Count" />
                     <HorizBar countData={courseTotals} countColName="completionCount" 
@@ -72,9 +82,11 @@ const AppContainer = function (){
         return (
             <div className="dashboardWrapper">
                 <div className="dashboardFirstRow">
-                    <Timeline completionData={dailyTotals} countColName="completionCount" 
-                            labelColName="coursename" cssClassName="CourseCount"
-                            chartTitle="Course Completion Count" />
+                    <div>test</div>
+                    <Timeline completionData={userDailyCompletionTotals} countColName="completionCount" 
+                                    xAxisColName="weeknum" yAxisColName="weekday" 
+                                    cssClassName="Timeline" chartTitle="User Course Completion Timeline"
+                                    labelColName="displayDate" />
                 </div>
             </div>
         )

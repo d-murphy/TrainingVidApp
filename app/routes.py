@@ -66,10 +66,10 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/user/<username>')
+@app.route('/user/<userId>')
 @login_required
-def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
+def user(userId):
+    user = User.query.filter_by(id=userId).first_or_404()
     lessonsComplete = len(user.lessonsComplete)
     coursesComplete = len(user.coursesComplete)
     usersCoursesCompleted = user.getUsersCompletedCourses()

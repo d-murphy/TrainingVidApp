@@ -12,15 +12,38 @@ const Timeline = ({completionData, countColName, xAxisColName, yAxisColName,
 
     const {width: widthRs, ref} = useResizeDetector();
 
-    const HEIGHT = 300
+    const HEIGHT = 225
     const MARGIN = {top: 25, right:20, bottom: 30, left: 40}
     const INNERPAD = .1
     const OUTERPAD = 0
     
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    let currentDate = new Date()
+    let dayOneOfMonth = currentDate
+    let monthLut = {}
+    let arrTo12 = [...Array(12).keys()]
+    arrTo12.forEach(el => {
+        let dayOneOfMonth = currentDate
+        if(currentDate.getMonth()>el) {
+            dayOneOfMonth.setMonth = dayOneOfMonth.getMonth() - el
+        } else {
+            dayOneOfMonth.setFullYear = dayOneOfMonth.getFullYear() - 1
+            dayOneOfMonth.setMonth = dayOneOfMonth.getMonth() - el
+        }
+        let weekNumOfDayOneOfMonth = Math.floor( (dayOneOfMonth - currentDate.getDay() - 1)/7 ) + 1
+        monthLut[weekNumOfDayOneOfMonth] = {
+            "weekNumOfDayOneOfMonth": weekNumOfDayOneOfMonth,
+            "monthOfWeekNum": dayOneOfMonth.getMonth(), 
+            "monthName": monthNames[dayOneOfMonth.getMonth()]
+        }
+    });
+    console.log(monthLut)
 
     const xScale = d3.scaleBand()
         .domain([...Array(53).keys()])
-        .range([widthRs-MARGIN.right, MARGIN.left])
+        .range([widthRs-MARGIN.right - MARGIN.left,0])
         .padding(INNERPAD)
         .paddingOuter(OUTERPAD)
 
@@ -53,7 +76,6 @@ const Timeline = ({completionData, countColName, xAxisColName, yAxisColName,
 
     let cssClass = cssClassName + " Timeline"
     let idForMouseover = cssClassName + "ChartMouseover"
-    let selectionForMouseover = "#" + idForMouseover
 
     return(
         <div className={cssClass} ref={ref} >
@@ -63,13 +85,13 @@ const Timeline = ({completionData, countColName, xAxisColName, yAxisColName,
                     {completionData.map((d,i) => {
                         return(
                             <rect key={i}
-                                x={xScale(d[xAxisColName])}
+                                x={xScale(d[xAxisColName])+MARGIN.left}
                                 y={yScale(d[yAxisColName])}
                                 height={yScale.bandwidth()}
                                 width={xScale.bandwidth()}
                                 fill= {colorScale(d[countColName])}
                                 message={`<center><b>${d[labelColName]}</b><br/><br/>
-                                          <b>Count</b>: ${d[countColName]}<br />
+                                          <b>Course Completions</b>: ${d[countColName]}<br />
                                           </center>`}
                             />
                         )

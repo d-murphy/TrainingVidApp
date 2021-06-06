@@ -25,9 +25,7 @@ const AppContainer = function (){
         }
         axios.get('/api/completions/')
             .then(response => {
-                console.log(response.data)
                 let dateCounts = getTimelineDataset(response.data);
-                console.log(dateCounts)
                 setDailyTotals(dateCounts)
     
                 let courseCts = getCourseCounts(response.data);
@@ -54,6 +52,12 @@ const AppContainer = function (){
     } else if (callingUrl === "adminDashboard") {
         return (
             <div className="dashboardWrapper">
+                <div className="dashboardSecondRow">
+                    <Timeline completionData={dailyTotals} countColName="completionCount" 
+                                    xAxisColName="weeknum" yAxisColName="weekday" 
+                                    cssClassName="Timeline" chartTitle="Completion Timeline"
+                                    labelColName="displayDate" /> 
+                </div>
                 <div className="dashboardFirstRow">
                     <HorizBar countData={statusTotals} countColName="userCount" 
                             labelColName="status" cssClassName="StatusCount"
@@ -61,9 +65,6 @@ const AppContainer = function (){
                     <HorizBar countData={courseTotals} countColName="completionCount" 
                             labelColName="coursename" cssClassName="CourseCount"
                             chartTitle="Course Completion Count" />
-                    <Timeline completionData={dailyTotals} countColName="completionCount" 
-                            labelColName="coursename" cssClassName="CourseCount"
-                            chartTitle="Course Completion Count" />                    
                 </div>
             </div>
         )     

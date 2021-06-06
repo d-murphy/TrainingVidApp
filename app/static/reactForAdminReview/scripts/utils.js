@@ -78,34 +78,45 @@ const getUserStatus = function(userArray){
 
 const getTimelineDataset = function (completionsArray) {
 
-    let currentYear = new Date().getFullYear()  
     let currentDate = new Date()
+    // change time of current date for daysFromToday calculations
+    currentDate.setHours(23)
+    currentDate.setMinutes(59)
     let oneDay = 1000 * 60 * 60 * 24;
-    console.log(currentDate)
     let timelineDataset = completionsArray.map(el => {
         let returnObj = {...el}
         returnObj.dateAsDateType = new Date(el.completion_date)
         returnObj.displayDate = moment(el.completion_date).format("MM/DD/YY")
-        // returnObj.dayCount = moment(el.completion_date).format("DDD")
-        // returnObj.year = new Date(el.completion_date).getFullYear()
-        console.log(returnObj)
         return returnObj
     }).reduce((accumulator, el) => {
-        // if ( (currentDate - el.dateAsDateType < 365)/oneDay && !accumulator[el.displayDate]){
-            if ( (currentDate - el.dateAsDateType)/oneDay < 365 && !accumulator[el.displayDate]){
-
-            console.log("anything here?")
+            let daysFromToday = Math.floor((currentDate - el.dateAsDateType)/oneDay)
+            if ( daysFromToday < 365 && !accumulator[el.displayDate]){
             accumulator[el.displayDate] = {
                 "displayDate" : el.displayDate,
-                "completionCount" : 1
+                "completionCount" : 1, 
+                "daysFromToday": daysFromToday,
+                "weekday": el.dateAsDateType.getDay(),
+                "weeknum": Math.floor( (daysFromToday - currentDate.getDay() - 1)/7 ) + 1
             } 
         } else if (accumulator[el.displayDate]){
-            console.log("dup date hit")
             accumulator[el.displayDate].completionCount += 1
         } 
         return accumulator
     },{})
-    console.log("end of redue",timelineDataset)
+
+    let eachDayOfYear = [...Array(365).keys()]
+    eachDayOfYear.forEach(el => {
+        let testDay = new Date(currentDate - el * oneDay)
+        let testDayFormatted = moment(testDay).format("MM/DD/YY")
+        if (!timelineDataset[testDayFormatted]) {
+            timelineDataset[testDayFormatted] = {
+                "displayDate": testDayFormatted,
+                "completionCount" : 0, 
+                "weekday": testDay.getDay(),
+                "weeknum": Math.floor( (el - currentDate.getDay() - 1)/7 ) + 1
+            }
+        }
+    })
     let timelineDatasetArr = Object.values(timelineDataset)
     return timelineDatasetArr
 }

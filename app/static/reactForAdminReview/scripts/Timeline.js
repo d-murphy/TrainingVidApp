@@ -1,5 +1,4 @@
 import * as d3 from 'd3'
-import moment from 'moment'
 import { useResizeDetector } from 'react-resize-detector'
 import { useEffect, useRef } from 'react'
 import { getMonthAxisLocations } from './utils.js'
@@ -7,7 +6,6 @@ import { getMonthAxisLocations } from './utils.js'
 const Timeline = ({completionData, countColName, xAxisColName, yAxisColName, 
                     cssClassName, chartTitle, labelColName}) => {
 
-    console.log("test")
     const xAxisRef = useRef(null)
     const yAxisRef = useRef(null)
 
@@ -56,6 +54,24 @@ const Timeline = ({completionData, countColName, xAxisColName, yAxisColName,
 
     let cssClass = cssClassName + " Timeline"
     let idForMouseover = cssClassName + "ChartMouseover"
+    let selectionForMouseover = "#" + idForMouseover
+
+    useEffect(() =>{
+    
+        d3.selectAll('rect')
+           .on('mouseover', function(event) {
+               var tt1X = event.pageX - 90
+               var tt1Y = event.pageY - 70
+               d3.select(selectionForMouseover)
+                 .style("left", tt1X + "px")
+                 .style("top", tt1Y + "px")
+                 .html(event.srcElement.attributes.message.nodeValue)
+                 .classed("hidden", false)
+           })
+           .on("mouseout", function() {
+               d3.select(selectionForMouseover).classed("hidden", true)
+           })
+   })
 
     return(
         <div className={cssClass} ref={ref} >
@@ -80,10 +96,6 @@ const Timeline = ({completionData, countColName, xAxisColName, yAxisColName,
                 <g>
                     <g ref={xAxisRef} transform={`translate(${MARGIN.left} ${HEIGHT-MARGIN.bottom})`}/>
                     <g ref={yAxisRef} transform={`translate(${MARGIN.left} 0)`}/>
-                    {/* <g>
-                        <text transform={`translate(${widthRs-widthRs*.45} ${HEIGHT}) `}
-                         className="yAxisLabel"># of Users</text>
-                    </g> */}
                     <g>
                         <text transform={`translate(${widthRs-widthRs*.6} ${MARGIN.top-8}) `}
                          className="title">{chartTitle}</text>

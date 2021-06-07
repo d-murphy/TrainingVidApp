@@ -1,36 +1,10 @@
 import moment from 'moment'
 
-// const getDateCounts = function(completionsArray){
-//     let dateCounts = completionsArray.map(el => {
-//         let displayDate = moment(el.completion_date).format("MM/DD/YY")
-//         let dayCount = moment(el.completion_date).format("DDD")
-//         let dayCountYr = moment(el.completion_date).format("YYYY")
-//         return {
-//             'displayDate': displayDate,
-//             'dayCount': dayCount,
-//             'dayCountYr': dayCountYr
-//         }
-//     }).reduce((accumulator, el) => {
-//         if(!accumulator[el.displayDate]){
-//             accumulator[el.displayDate] = {
-//                 "completionCount" : 1,
-//                 "displayDate": el.displayDate,
-//                 "dayCount" : el.dayCount,
-//                 "dayCountYr": el.dayCount
-//             } 
-//         } else {
-//             accumulator[el.displayDate].completionCount += 1
-//         }
-//         return accumulator;
-//     },{})
-//     const dateCountsArr = Object.values(dateCounts);
-//     return dateCountsArr
-// }
-
 const getCourseCounts = function(completionsArray){
     let courseCts = completionsArray.reduce((accumulator, el) => {
         if(!accumulator[el.coursename]){
             accumulator[el.coursename] = {
+                "course_id": el.course_id,
                 "completionCount" : 1,
                 "coursename": el.coursename
             } 

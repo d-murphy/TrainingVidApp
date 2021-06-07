@@ -74,7 +74,7 @@ const HorizBar = ({countData, countColName, labelColName, cssClassName, chartTit
                                 y={yScale(d[labelColName])}
                                 height={yScale.bandwidth()}
                                 width={xScale(d[countColName])}
-                                fill= {cssClassName=="StatusCount" ?"rgba(140,40,140,.5)":"rgba(157,206,242,.7)"}
+                                fill= {cssClassName=="StatusCount" ?"rgba(41, 119, 201,.7)":"rgba(157,206,242,.7)"}
                                 message={`<center><b>${d[labelColName]}</b><br/><br/>
                                           <b>Count</b>: ${d[countColName]}<br />
                                           </center>`}

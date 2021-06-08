@@ -190,13 +190,14 @@ def lessonInCourse(lessonId,courseId):
     if form.validate_on_submit():
         logging.debug("error check 16")
         if lessonId==lessonIDsInCourse[-1]:
-            logging.debug("error check 17")
-            user.completeLesson(lesson)
-            logging.debug("error check 18")
-            user.completeCourse(course)
-            logging.debug("error check 19")
-            user.unEnrollFromCourse(course)
-            logging.debug("error check 20")
+            with db.session.no_autoflush:
+                logging.debug("error check 17")
+                user.completeLesson(lesson)
+                logging.debug("error check 18")
+                user.completeCourse(course)
+                logging.debug("error check 19")
+                user.unEnrollFromCourse(course)
+                logging.debug("error check 20")
             db.session.commit()
             logging.debug("error check 21")
             flash('Course Complete! Congratulations')

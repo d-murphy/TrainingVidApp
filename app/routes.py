@@ -198,7 +198,7 @@ def lessonInCourse(lessonId,courseId):
                 logging.debug("error check 19")
                 user.unEnrollFromCourse(course)
                 logging.debug("error check 20")
-            db.session.commit()
+                db.session.commit()
             logging.debug("error check 21")
             flash('Course Complete! Congratulations')
             print("error check 212")

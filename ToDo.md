@@ -1,9 +1,7 @@
 # Must Do List
 
-* build a profile page with github style history
-* add history to admin dashboard
-** same react build, but use window.location.href to find which to display.  
-* deploy
+* why is lessonInCourse Mark Complete failing
+* move manImage out of image file and reload
 
 # May Do
 * might want to refresh profile page, show images
@@ -49,6 +47,8 @@ Completed:
 * browse link with icon
 * Profile drop down to show profile, admin, logot
 * css tracks:  homepage to user login, enroll in course to complete, create and edit lessons and courses
+* build a profile page with github style history
+* add history to admin dashboard
 
 
 Roadblocks encountered / Lessons Learned: 
@@ -60,7 +60,8 @@ Roadblocks encountered / Lessons Learned:
 * use uuid4 to create unique IDs for the image (from Josh); decided not to labels images with course id which would require two db.session.commits
 * spent a lot of time trying to connect lessons within a course.  My initial solution might have been failing because I wasn't returning my redirect.  Final outcome is cleaner though.  
 * encountered a bug getting [react to build](https://github.com/babel/babel/issues/8599) and location for [.babelrc](https://stackoverflow.com/questions/35391279/where-is-the-location-of-babelrc-file).  
-
+* git ignore included my front page logo
+* course completions returned an internal service error without making log
 
 Videos pulled from: 
 * https://www.pexels.com/search/videos/classroom/

@@ -176,18 +176,30 @@ def editLesson(lessonId):
 @login_required
 def lessonInCourse(lessonId,courseId):
     lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
+    print("error check 1")
     course = Course.query.filter_by(id=courseId).first_or_404()
+    print("error check 12")
     lessonsInCourse = course.lessonsIncluded
+    print("error check 13")
     lessonIDsInCourse = [str(lesson.id) for lesson in lessonsInCourse]
+    print("error check 14")
     form = CompleteLesson()
+    print("error check 15")
     user = current_user
     if form.validate_on_submit():
+        print("error check 16")
         if lessonId==lessonIDsInCourse[-1]:
+            print("error check 17")
             user.completeLesson(lesson)
+            print("error check 18")
             user.completeCourse(course)
+            print("error check 19")
             user.unEnrollFromCourse(course)
+            print("error check 20")
             db.session.commit()
+            print("error check 21")
             flash('Course Complete! Congratulations')
+            print("error check 212")
             return redirect(url_for('index'))
         else:
             user.completeLesson(lesson)
@@ -295,7 +307,10 @@ def deleteCourse(courseId):
 
 @app.route('/displayImg/<filename>')
 def displayImg(filename):
-	return redirect(url_for('static', filename='uploads/image/' + filename), code=301)
+    if(filename=="welcomeImage.svg"):
+        return redirect(url_for('static', filename=filename), code=301)
+    else: 
+    	return redirect(url_for('static', filename='uploads/image/' + filename), code=301)
 
 @app.route('/displayVid/<filename>')
 def displayVid(filename):

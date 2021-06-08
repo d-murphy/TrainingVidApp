@@ -25,35 +25,37 @@
             {% endif %}
             {% endwith %}   
           </div>
-          <div class="navRightBottom">
               {% if current_user.is_anonymous %}
+                <div class="navRightBottom">
                   <a href="{{ url_for('login') }}">                
-                    <div class="login">Login</div>
-                  </a>
+                      <div class="login">Login</div>
+                    </a>
+                </div>
               {% else %}
-                <a href="/">
-                  <div class="browse-courses-button">
-                    Browse
-                    <div class="browse-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" data-supported-dps="20x20" fill="currentColor" width="18" height="18" focusable="false">
-                        <path d="M4 3.67c.73 0 1.33.6 1.33 1.33S4.73 6.33 4 6.33 2.67 5.73 2.67 5 3.27 3.67 4 3.67zM8 4h13v2H8V4zm-4 6.67c.73 0 1.33.6 1.33 1.33s-.6 1.33-1.33 1.33-1.33-.6-1.33-1.33.6-1.33 1.33-1.33zM8 11h13v2H8v-2zm-4 6.67c.73 0 1.33.6 1.33 1.33s-.6 1.33-1.33 1.33-1.33-.6-1.33-1.33.6-1.33 1.33-1.33zM8 18h13v2H8v-2z"></path>
-                      </svg>
+                <div class="navRightBottomAfterLogin">
+                  <a href="/">
+                    <div class="browse-courses-button">
+                      Browse
+                      <div class="browse-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" data-supported-dps="20x20" fill="currentColor" width="16" height="16" focusable="false">
+                          <path d="M4 3.67c.73 0 1.33.6 1.33 1.33S4.73 6.33 4 6.33 2.67 5.73 2.67 5 3.27 3.67 4 3.67zM8 4h13v2H8V4zm-4 6.67c.73 0 1.33.6 1.33 1.33s-.6 1.33-1.33 1.33-1.33-.6-1.33-1.33.6-1.33 1.33-1.33zM8 11h13v2H8v-2zm-4 6.67c.73 0 1.33.6 1.33 1.33s-.6 1.33-1.33 1.33-1.33-.6-1.33-1.33.6-1.33 1.33-1.33zM8 18h13v2H8v-2z"></path>
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                </a>
-                <div class="profile-dropdown">
-                  <button class="profile-dropbtn">Me <div class="profile-arrow">&#9660;</div></button>
-                  <div class="profile-dropdown-content">
-                    <a href="{{ url_for('user', userId=current_user.id) }}">Profile</a>
-                    {% if current_user.adminPrivilege %}
-                    <a href="{{ url_for('admin', username=current_user.username) }}">Admin Control</a>
-                    {% endif %}
-                    <a href="{{ url_for('adminDashboard') }}">User Statistics</a>
-                    <a href="{{ url_for('logout') }}">Logout</a>
+                  </a>
+                  <div class="profile-dropdown">
+                    <button class="profile-dropbtn">Me <div class="profile-arrow">&#9660;</div></button>
+                    <div class="profile-dropdown-content">
+                      <a href="{{ url_for('user', userId=current_user.id) }}">Profile</a>
+                      {% if current_user.adminPrivilege %}
+                      <a href="{{ url_for('admin', username=current_user.username) }}">Admin Control</a>
+                      {% endif %}
+                      <a href="{{ url_for('adminDashboard') }}">User Statistics</a>
+                      <a href="{{ url_for('logout') }}">Logout</a>
+                    </div>
                   </div>
                 </div>
               {% endif %}  
-          </div>
         </div>
       </div>
       <div class="mainContentWrapper">

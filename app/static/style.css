@@ -78,9 +78,14 @@ body {
     
 }
 
-.navRightBottom {
+.navRightBottom, .navRightBottomAfterLogin {
     display: flex;
 }
+
+.navRightBottomAfterLogin {
+    background-color: #2977c9;
+}
+
 
 .flashMessages {
     padding: 10px;
@@ -140,7 +145,7 @@ body {
 .profile-dropbtn {
   background-color: #2977c9; 
   color: white;
-  padding: 16px 16px 15px 16px;
+  padding: 16px 16px 16px 16px;
   border: none;
   cursor: pointer;
   font-size: large;

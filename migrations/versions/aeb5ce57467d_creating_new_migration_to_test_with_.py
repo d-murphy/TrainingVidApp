@@ -1,17 +1,16 @@
-"""restting data
+"""creating new migration to test with mysql
 
-Revision ID: aa1e7f9e776b
+Revision ID: aeb5ce57467d
 Revises: 
-Create Date: 2021-05-25 23:35:57.908930
+Create Date: 2021-06-08 17:30:23.635952
 
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.sql.expression import null
 
 
 # revision identifiers, used by Alembic.
-revision = 'aa1e7f9e776b'
+revision = 'aeb5ce57467d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -60,6 +59,18 @@ def upgrade():
     sa.ForeignKeyConstraint(['course_id'], ['course.id'], ),
     sa.ForeignKeyConstraint(['lesson_id'], ['lesson.id'], )
     )
+    op.create_table('usersCourseCompleteDate',
+    sa.Column('id', sa.String(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('course_id', sa.Integer(), nullable=True),
+    sa.Column('date_completed', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['course_id'], ['course.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('id')
+    )
+    op.create_index(op.f('ix_usersCourseCompleteDate_date_completed'), 'usersCourseCompleteDate', ['date_completed'], unique=False)
     op.create_table('usersCoursesAssociation',
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('course_id', sa.Integer(), nullable=True),
@@ -67,9 +78,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], )
     )
     op.create_table('usersLessonCompleteAssociation',
-    sa.Column('id', sa.String(length=120), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('lesson_id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('lesson_id', sa.Integer(), nullable=True),
     sa.Column('date_completed', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['lesson_id'], ['lesson.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], )
@@ -83,6 +93,8 @@ def downgrade():
     op.drop_index(op.f('ix_usersLessonCompleteAssociation_date_completed'), table_name='usersLessonCompleteAssociation')
     op.drop_table('usersLessonCompleteAssociation')
     op.drop_table('usersCoursesAssociation')
+    op.drop_index(op.f('ix_usersCourseCompleteDate_date_completed'), table_name='usersCourseCompleteDate')
+    op.drop_table('usersCourseCompleteDate')
     op.drop_table('courseVideosAssociation')
     op.drop_index(op.f('ix_lesson_name'), table_name='lesson')
     op.drop_index(op.f('ix_lesson_dateAdded'), table_name='lesson')

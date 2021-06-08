@@ -25,16 +25,16 @@ courseVideosAssociation = db.Table('courseVideosAssociation', db.Model.metadata,
 
 class usersCourseCompleteDate(db.Model):
     def __init__(self, user=None, course=None):
-#        self.id = str(uuid.uuid4())
+        self.id = str(uuid.uuid4())
         self.user = user
         self.course = course
         self.dateCompleted = datetime.utcnow()
 
     __tablename__ = 'usersCourseCompleteDate'
-#    id = db.Column(db.String, primary_key=True, unique=True)
-    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), primary_key=True)
+    id = db.Column(db.String, primary_key=True, unique=True)
+#    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     dateCompleted = db.Column('date_completed', db.DateTime, index=True, default=datetime.utcnow)
     user = db.relationship("User", backref=db.backref("usersCourseCompleteDate", cascade="all, delete-orphan"))
     course = db.relationship("Course", backref=db.backref("usersCourseCompleteDate",cascade="all, delete-orphan"))

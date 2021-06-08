@@ -1,12 +1,14 @@
 # TrainingVidApp
 
 Project objectives: 
-* execute a Flask project with a non-trival Object Relational Model
-* deploy a project on remote linux machine 
-* enable a video and image upload
+* execute a flask project
+* embed react within flask and contrast with the flask/jinja templating approach
+* deploy a project on a remote linux machine 
+* create a non-trivial object relational model and implement in mysql
 * explore custom video controls to enforce video completion
-* embed react within a flask application to constrast with templating approach
+* enable a video and image upload
 * expose api endpoints to communicate with react portion
+
 
 ### Attributions: 
 

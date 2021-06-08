@@ -7,6 +7,7 @@ Create Date: 2021-05-25 23:35:57.908930
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.sql.expression import null
 
 
 # revision identifiers, used by Alembic.
@@ -66,8 +67,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], )
     )
     op.create_table('usersLessonCompleteAssociation',
-    sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('lesson_id', sa.Integer(), nullable=True),
+    sa.Column('id', sa.String(length=120), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('lesson_id', sa.Integer(), nullable=False),
     sa.Column('date_completed', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['lesson_id'], ['lesson.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], )

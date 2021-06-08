@@ -1,23 +1,5 @@
-# Must Do List
 
-* why is lessonInCourse Mark Complete failing
-* move manImage out of image file and reload
-
-# May Do
-* might want to refresh profile page, show images
-* should the images be animating, scolling?
-* improve form css
-* moment.js not working on Profile page
-* add password for admin access
-* add email password reset
-* drag and drop prevent courses you created from being dropped in courses others created
-* add text indexing to descriptions?
-* add full text search to 1. lesson selection in course edit 2. lesson/course catalog
-* css for mobile
-* add scroll bar to divs in edit course.  
-* add a confirm delete route
-
-Completed: 
+# Completed: 
 * Complete login page
 * Define objects for database (users, courses, videos)
 * Link tables as approapriate
@@ -49,7 +31,8 @@ Completed:
 * css tracks:  homepage to user login, enroll in course to complete, create and edit lessons and courses
 * build a profile page with github style history
 * add history to admin dashboard
-
+* recreated migrations to work with mysql
+* move homepage image out of image upload directory to avoid gitignore
 
 Roadblocks encountered / Lessons Learned: 
 * db.session.add(lesson) was erroring while sending a user object rather than Id
@@ -63,8 +46,7 @@ Roadblocks encountered / Lessons Learned:
 * front page logo was being excluded with git ignore settings
 * course completions returned an internal service error without making log
 * app issuing error about permissions with uploading files, was fixed after creating the directories
+* mysql had slightly different requirements than sqllite and required minor adjustments to the migration files
 
 Videos pulled from: 
 * https://www.pexels.com/search/videos/classroom/
-
-

@@ -32,7 +32,7 @@ class usersCourseCompleteDate(db.Model):
 
     __tablename__ = 'usersCourseCompleteDate'
 #    id = db.Column(db.String, primary_key=True, unique=True)
-    id = db.Column(db.Integer, primary_key=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), primary_key=True)
     dateCompleted = db.Column('date_completed', db.DateTime, index=True, default=datetime.utcnow)

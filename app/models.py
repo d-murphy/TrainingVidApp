@@ -32,8 +32,8 @@ class usersCourseCompleteDate(db.Model):
 
     __tablename__ = 'usersCourseCompleteDate'
     id = db.Column(db.String, primary_key=True, unique=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     dateCompleted = db.Column('date_completed', db.DateTime, index=True, default=datetime.utcnow)
     user = db.relationship("User", backref=db.backref("usersCourseCompleteDate", cascade="all, delete-orphan"))
     course = db.relationship("Course", backref=db.backref("usersCourseCompleteDate",cascade="all, delete-orphan"))

@@ -60,8 +60,9 @@ Roadblocks encountered / Lessons Learned:
 * use uuid4 to create unique IDs for the image (from Josh); decided not to labels images with course id which would require two db.session.commits
 * spent a lot of time trying to connect lessons within a course.  My initial solution might have been failing because I wasn't returning my redirect.  Final outcome is cleaner though.  
 * encountered a bug getting [react to build](https://github.com/babel/babel/issues/8599) and location for [.babelrc](https://stackoverflow.com/questions/35391279/where-is-the-location-of-babelrc-file).  
-* git ignore included my front page logo
+* front page logo was being excluded with git ignore settings
 * course completions returned an internal service error without making log
+* app issuing error about permissions with uploading files, was fixed after creating the directories
 
 Videos pulled from: 
 * https://www.pexels.com/search/videos/classroom/

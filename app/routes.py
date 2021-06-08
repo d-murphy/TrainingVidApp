@@ -9,6 +9,7 @@ from app.utils import stopFileUpload, saveFileReturnFileName, changeFileReturnFi
     deleteFile, findLessonsGroups, formElToAppendLessons, formElToReturnCoursepath
 from sqlalchemy.exc import IntegrityError
 import json
+import logging
 
 
 @app.route('/')
@@ -176,28 +177,28 @@ def editLesson(lessonId):
 @login_required
 def lessonInCourse(lessonId,courseId):
     lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
-    print("error check 1")
+    logging.debug("error check 1")
     course = Course.query.filter_by(id=courseId).first_or_404()
-    print("error check 12")
+    logging.debug("error check 12")
     lessonsInCourse = course.lessonsIncluded
-    print("error check 13")
+    logging.debug("error check 13")
     lessonIDsInCourse = [str(lesson.id) for lesson in lessonsInCourse]
-    print("error check 14")
+    logging.debug("error check 14")
     form = CompleteLesson()
-    print("error check 15")
+    logging.debug("error check 15")
     user = current_user
     if form.validate_on_submit():
-        print("error check 16")
+        logging.debug("error check 16")
         if lessonId==lessonIDsInCourse[-1]:
-            print("error check 17")
+            logging.debug("error check 17")
             user.completeLesson(lesson)
-            print("error check 18")
+            logging.debug("error check 18")
             user.completeCourse(course)
-            print("error check 19")
+            logging.debug("error check 19")
             user.unEnrollFromCourse(course)
-            print("error check 20")
+            logging.debug("error check 20")
             db.session.commit()
-            print("error check 21")
+            logging.debug("error check 21")
             flash('Course Complete! Congratulations')
             print("error check 212")
             return redirect(url_for('index'))

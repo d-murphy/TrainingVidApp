@@ -1,8 +1,8 @@
 """creating new migration to test with mysql
 
-Revision ID: aeb5ce57467d
+Revision ID: 9230cc87681d
 Revises: 
-Create Date: 2021-06-08 17:30:23.635952
+Create Date: 2021-06-08 17:47:06.513203
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'aeb5ce57467d'
+revision = '9230cc87681d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -60,7 +60,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['lesson_id'], ['lesson.id'], )
     )
     op.create_table('usersCourseCompleteDate',
-    sa.Column('id', sa.String(), nullable=False),
+    sa.Column('id', sa.String(length=40), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('course_id', sa.Integer(), nullable=True),
     sa.Column('date_completed', sa.DateTime(), nullable=True),

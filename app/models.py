@@ -31,7 +31,7 @@ class usersCourseCompleteDate(db.Model):
         self.dateCompleted = datetime.utcnow()
 
     __tablename__ = 'usersCourseCompleteDate'
-    id = db.Column(db.String, primary_key=True, unique=True)
+    id = db.Column(db.String(40), primary_key=True, unique=True)
 #    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))

@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="player">
-            <video controls onloadeddata="showControls()">
+            <video playsinline controls onloadeddata="showControls()">
                 <source src="{{ url_for('displayVid',filename=lesson.vidFileLoc) }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>

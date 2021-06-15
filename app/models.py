@@ -32,7 +32,6 @@ class usersCourseCompleteDate(db.Model):
 
     __tablename__ = 'usersCourseCompleteDate'
     id = db.Column(db.String(40), primary_key=True, unique=True)
-#    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
     dateCompleted = db.Column('date_completed', db.DateTime, index=True, default=datetime.utcnow)
@@ -95,7 +94,6 @@ class User(UserMixin, db.Model):
 
 
 class Lesson(db.Model):
-
     __tablename__ = 'lesson'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True, unique=True)

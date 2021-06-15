@@ -9,26 +9,24 @@ from app.utils import stopFileUpload, saveFileReturnFileName, changeFileReturnFi
     deleteFile, findLessonsGroups, formElToAppendLessons, formElToReturnCoursepath
 from sqlalchemy.exc import IntegrityError
 import json
-import logging
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    lessons = db.session.query(Lesson).limit(3).all()
     courses = db.session.query(Course).all()
     if current_user.is_authenticated:
         user = db.session.query(User).filter_by(id=current_user.id).one_or_none()
         userCourses = user.coursesEnrolled
-        coursesToShow = []
+        otherCourses = []
         for course in courses:
             if course in user.coursesEnrolled: 
                 continue
-            coursesToShow.append(course)
-        courses = coursesToShow
+            otherCourses.append(course)
+        courses = otherCourses
     else:
         userCourses=[]
-    return render_template('index.html', title="Home Page", lessons=lessons, 
+    return render_template('index.html', title="Home Page", 
                             courses=courses, userCourses=userCourses)
 
 @app.route('/login', methods=['GET','POST'])
@@ -70,12 +68,7 @@ def register():
 @app.route('/user/<userId>')
 @login_required
 def user(userId):
-    user = User.query.filter_by(id=userId).first_or_404()
-    lessonsComplete = len(user.lessonsComplete)
-    coursesComplete = len(user.coursesComplete)
-    usersCoursesCompleted = user.getUsersCompletedCourses()
-    return render_template('user.html', user=user, lessonsComplete=lessonsComplete, 
-                            coursesComplete=coursesComplete, usersCoursesCompleted=usersCoursesCompleted )
+    return render_template('user.html' )
 
 @app.route('/admin/<username>')
 @login_required
@@ -159,49 +152,23 @@ def editLesson(lessonId):
         form.duration.data = lesson.duration
     return render_template('editLesson.html', title='Edit Course', lesson=lesson, form=form)
 
-# @app.route('/lesson/<lessonId>', methods=['GET', 'POST'])
-# @login_required
-# def lesson(lessonId):
-#     lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
-#     form = CompleteLesson()
-#     user = current_user
-#     if form.validate_on_submit():
-#         user.completeLesson(lesson)
-#         db.session.commit()
-#         flash('Congratulations, you have finished the lesson')
-#         return redirect(url_for('index'))
-#     return render_template('lesson.html', form=form, lesson=lesson)
-
-
 @app.route('/lessonInCourse/<lessonId>/<courseId>', methods=['GET', 'POST'])
 @login_required
 def lessonInCourse(lessonId,courseId):
     lesson = Lesson.query.filter_by(id=lessonId).first_or_404()
-    logging.debug("error check 1")
     course = Course.query.filter_by(id=courseId).first_or_404()
-    logging.debug("error check 12")
     lessonsInCourse = course.lessonsIncluded
-    logging.debug("error check 13")
     lessonIDsInCourse = [str(lesson.id) for lesson in lessonsInCourse]
-    logging.debug("error check 14")
     form = CompleteLesson()
-    logging.debug("error check 15")
     user = current_user
     if form.validate_on_submit():
-        logging.debug("error check 16")
         if lessonId==lessonIDsInCourse[-1]:
             with db.session.no_autoflush:
-                logging.debug("error check 17")
                 user.completeLesson(lesson)
-                logging.debug("error check 18")
                 user.completeCourse(course)
-                logging.debug("error check 19")
                 user.unEnrollFromCourse(course)
-                logging.debug("error check 20")
                 db.session.commit()
-            logging.debug("error check 21")
             flash('Course Complete! Congratulations')
-            print("error check 212")
             return redirect(url_for('index'))
         else:
             user.completeLesson(lesson)
@@ -241,7 +208,6 @@ def createCourse():
         db.session.add(course)
         db.session.commit()
         flash('Course created successfully.')
-        print(course.id)
         return redirect(url_for('admin', username=current_user.username))
     return render_template('createCourse.html', title='Create Course', form=form,
         lessonsInCourse=lessonGroups['lessonsInCourse'], 
